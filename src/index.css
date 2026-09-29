@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@theme {
+  /* superficies y texto: cambian entre modo oscuro (default) y claro, ver bloque [data-theme="light"] */
+  --color-ink: #0a1712;
+  --color-ink-soft: #101f19;
+  --color-ink-softer: #16281f;
+  --color-ink-line: rgba(234, 242, 236, 0.09);
+  --color-bone: #eaf2ec;
+  --color-muted: #93a69b;
+
+  /* acentos de marca: también cambian de tono entre modos (más profundos en claro para que
+     sigan siendo legibles como texto sobre fondo claro), pero la familia de color es la misma */
+  --color-lime: #d6ff3f;
+  --color-lime-dim: #a6cc2a;
+  --color-teal: #2dd4a7;
+  --color-clay: #ff6b45;
+
+  /* tinta fija para texto sobre rellenos de acento (botones): NUNCA cambia con el tema, porque
+     los rellenos lima/teal/clay siempre son vívidos y necesitan texto oscuro encima */
+  --color-inkfix: #0a1712;
+
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* colores de las categorías de pádel (8va a Profesional): vívidos en oscuro, no son tokens de
+   @theme porque no necesitan generar clases utilitarias, solo se consumen vía var() inline. */
+:root {
+  --cat-8va: #5fd6c4;
+  --cat-7ma: #4fc3e0;
+  --cat-6ta: #4fa8e8;
+  --cat-5ta: #8c8cf0;
+  --cat-4ta: #b27cf0;
+  --cat-3ra: #d66fe0;
+  --cat-2da: #f0669b;
+  --cat-1ra: #f0704f;
+  --cat-pro: #d6ff3f;
+}
+
+:root[data-theme='light'] {
+  --color-ink: #f3f1e7;
+  --color-ink-soft: #ffffff;
+  --color-ink-softer: #e6e2d1;
+  --color-ink-line: rgba(15, 26, 20, 0.14);
+  --color-bone: #142219;
+  --color-muted: #5c6b60;
+
+  --color-lime: #7c9a12;
+  --color-lime-dim: #5f7a0e;
+  --color-teal: #0e8f72;
+  --color-clay: #c74a1f;
+
+  /* mismas categorías, versión profunda para que sean legibles sobre fondo claro */
+  --cat-8va: #128c74;
+  --cat-7ma: #1a7fa3;
+  --cat-6ta: #1d63b0;
+  --cat-5ta: #5a4fcc;
+  --cat-4ta: #7a3fcc;
+  --cat-3ra: #a83fa8;
+  --cat-2da: #c23368;
+  --cat-1ra: #c74a1f;
+  --cat-pro: #7c9a12;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+::selection {
+  background: var(--color-lime);
+  color: var(--color-ink);
+}
+
+/* textura de grano sutil para dar profundidad sin usar gradientes genéricos */
+.bg-grain {
+  position: relative;
+}
+.bg-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* líneas de cancha como motivo decorativo */
+.court-lines {
+  background-image:
+    linear-gradient(var(--color-ink-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-ink-line) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+/* botones con esquina cortada: la forma de firma del sitio, en vez del pill redondeado genérico */
+.btn-cut {
+  clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+}
+.btn-cut-sm {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* borde tipo entrada/ticket: dos muescas semicirculares a los lados de una línea punteada */
+.ticket-tear {
+  position: relative;
+  border-top: 1.5px dashed var(--color-ink-line);
+}
+.ticket-tear::before,
+.ticket-tear::after {
+  content: '';
+  position: absolute;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-ink);
+}
+.ticket-tear::before {
+  left: -7px;
+}
+.ticket-tear::after {
+  right: -7px;
+}
+
+/* indent que escala con el viewport para que la escalera de categorías no se coma el mobile */
+.ladder-indent {
+  margin-left: min(var(--rank-indent, 0px), 9vw);
+}

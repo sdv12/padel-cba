@@ -3,10 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href="https://padel-cba.netlify.app/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Reservá tu cancha de pádel online. Turnos de 1:30 y 2hs, de 8 a 00hs. Armá partidos abiertos y sumate por categoría." />
+    <meta name="description" content="Gestioná reservas, canchas, jugadores y pagos desde un solo lugar. Digitalizá tu club de pádel con Padel CBA." />
     <meta name="theme-color" content="#0A1712" />
-    <title>Padel Cba — Reservá tu cancha</title>
+    <title>Software para gestionar clubes de pádel | Padel CBA</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Padel CBA" />
+    <meta property="og:title" content="Software para gestionar clubes de pádel | Padel CBA" />
+    <meta property="og:description" content="Gestioná reservas, canchas, jugadores y pagos desde un solo lugar. Digitalizá tu club de pádel con Padel CBA." />
+    <meta property="og:url" content="https://padel-cba.netlify.app/" />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Software para gestionar clubes de pádel | Padel CBA" />
+    <meta name="twitter:description" content="Gestioná reservas, canchas, jugadores y pagos desde un solo lugar. Digitalizá tu club de pádel con Padel CBA." />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -14,5 +26,21 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!--
+      Réplica estática del formulario de contacto (ver src/components/b2b/LeadForm.jsx).
+      Netlify detecta formularios escaneando el HTML generado en el build, no el JSX que
+      arma React en el navegador. Sin esto, el form real no queda registrado y los envíos
+      se pierden. Los "name" de acá tienen que ser EXACTAMENTE los mismos que en LeadForm.jsx.
+    -->
+    <form name="contacto-clubes" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="text" name="club" />
+      <input type="text" name="courts" />
+      <input type="text" name="phone" />
+      <input type="text" name="interest" />
+      <textarea name="message"></textarea>
+      <input type="text" name="bot-field" />
+    </form>
   </body>
 </html>

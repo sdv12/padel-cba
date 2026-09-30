@@ -15,6 +15,7 @@ import CustomizationSection from '../components/b2b/CustomizationSection'
 import FaqSection from '../components/b2b/FaqSection'
 import FinalCta from '../components/b2b/FinalCta'
 import B2BFooter from '../components/b2b/B2BFooter'
+import DemoFloatingButton from '../components/b2b/DemoFloatingButton'
 
 // Landing comercial B2B: le vende Padel CBA a dueños y administradores de complejos de pádel.
 // La demo funcional para el jugador final vive en /demo (ClubDemoPage).
@@ -40,6 +41,7 @@ export default function B2BLandingPage() {
         <FinalCta />
       </main>
       <B2BFooter />
+      <DemoFloatingButton />
     </>
   )
 }

@@ -42,7 +42,7 @@ export default function LeadForm() {
 
   if (status === 'sent') {
     return (
-      <div className="flex flex-col items-center rounded-lg border border-lime/40 bg-lime/5 px-6 py-12 text-center">
+      <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
         <div className="grid h-14 w-14 place-items-center rounded-full bg-lime/15 text-lime">
           <Check size={26} />
         </div>
@@ -58,7 +58,7 @@ export default function LeadForm() {
       onSubmit={handleSubmit}
       data-netlify="true"
       netlify-honeypot="bot-field"
-      className="rounded-lg border border-ink-line bg-ink-soft/60 p-6 sm:p-8"
+      className="p-8"
     >
       <input type="hidden" name="form-name" value="contacto-clubes" />
       <p className="hidden">

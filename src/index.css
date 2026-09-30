@@ -10,9 +10,11 @@
   --color-muted: #93a69b;
 
   /* acentos de marca: también cambian de tono entre modos (más profundos en claro para que
-     sigan siendo legibles como texto sobre fondo claro), pero la familia de color es la misma */
-  --color-lime: #d6ff3f;
-  --color-lime-dim: #a6cc2a;
+     sigan siendo legibles como texto sobre fondo claro), pero la familia de color es la misma.
+     El lima es a propósito un poco menos neón que un verde-limón puro, para no cansar la vista
+     en botones grandes y usos repetidos. */
+  --color-lime: #c3e64f;
+  --color-lime-dim: #9fc232;
   --color-teal: #2dd4a7;
   --color-clay: #ff6b45;
 
@@ -35,7 +37,7 @@
   --cat-3ra: #d66fe0;
   --cat-2da: #f0669b;
   --cat-1ra: #f0704f;
-  --cat-pro: #d6ff3f;
+  --cat-pro: #c3e64f;
 }
 
 :root[data-theme='light'] {

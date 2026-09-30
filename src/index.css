@@ -148,3 +148,15 @@ body {
 .ladder-indent {
   margin-left: min(var(--rank-indent, 0px), 9vw);
 }
+
+/* entrada de mensajes tipo chat, uno por uno, como si llegaran de verdad */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

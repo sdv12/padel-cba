@@ -160,3 +160,94 @@ body {
     transform: translateY(0);
   }
 }
+
+/* paletas alternativas de la demo (la original "lima" usa los tokens base). Cada una define
+   su versión oscura y clara; la especificidad de [data-palette][data-theme] gana sobre el tema solo. */
+:root[data-palette='arcilla']:not([data-theme='light']) {
+  --color-ink: #1a110b;
+  --color-ink-soft: #241810;
+  --color-ink-softer: #322217;
+  --color-ink-line: rgba(246, 232, 220, 0.1);
+  --color-bone: #f6e8dc;
+  --color-muted: #a8958a;
+  --color-lime: #e0743c;
+  --color-lime-dim: #b85a2a;
+  --color-teal: #8fd3b6;
+}
+:root[data-palette='arcilla'][data-theme='light'] {
+  --color-ink: #f6efe6;
+  --color-ink-soft: #ffffff;
+  --color-ink-softer: #eadfd2;
+  --color-ink-line: rgba(40, 22, 10, 0.14);
+  --color-bone: #2a1a10;
+  --color-muted: #6e5d52;
+  --color-lime: #b4531c;
+  --color-lime-dim: #8c3f14;
+  --color-teal: #3e8c74;
+}
+:root[data-palette='oceano']:not([data-theme='light']) {
+  --color-ink: #07141f;
+  --color-ink-soft: #0e2131;
+  --color-ink-softer: #163349;
+  --color-ink-line: rgba(220, 240, 255, 0.09);
+  --color-bone: #e6f3fb;
+  --color-muted: #8ea6b8;
+  --color-lime: #5fd4f0;
+  --color-lime-dim: #3aa9c9;
+  --color-teal: #4fd1c5;
+}
+:root[data-palette='oceano'][data-theme='light'] {
+  --color-ink: #eef6fa;
+  --color-ink-soft: #ffffff;
+  --color-ink-softer: #d9e9f2;
+  --color-ink-line: rgba(8, 30, 50, 0.14);
+  --color-bone: #0b2233;
+  --color-muted: #536a7a;
+  --color-lime: #1b7fa3;
+  --color-lime-dim: #135f7b;
+  --color-teal: #0f8f85;
+}
+:root[data-palette='violeta']:not([data-theme='light']) {
+  --color-ink: #120a1c;
+  --color-ink-soft: #1c1129;
+  --color-ink-softer: #2a1b3d;
+  --color-ink-line: rgba(240, 230, 255, 0.09);
+  --color-bone: #f1eafc;
+  --color-muted: #a29ab5;
+  --color-lime: #b69cff;
+  --color-lime-dim: #8a70e0;
+  --color-teal: #7de0c8;
+}
+:root[data-palette='violeta'][data-theme='light'] {
+  --color-ink: #f6f2fc;
+  --color-ink-soft: #ffffff;
+  --color-ink-softer: #e6dcf5;
+  --color-ink-line: rgba(30, 10, 50, 0.14);
+  --color-bone: #1d1030;
+  --color-muted: #64597a;
+  --color-lime: #6b4fd8;
+  --color-lime-dim: #4f35b0;
+  --color-teal: #0f8f72;
+}
+:root[data-palette='grafito']:not([data-theme='light']) {
+  --color-ink: #101113;
+  --color-ink-soft: #19191c;
+  --color-ink-softer: #242428;
+  --color-ink-line: rgba(240, 240, 240, 0.09);
+  --color-bone: #f2f2f0;
+  --color-muted: #9a9a98;
+  --color-lime: #ff9f1c;
+  --color-lime-dim: #cc7a0a;
+  --color-teal: #4ecdc4;
+}
+:root[data-palette='grafito'][data-theme='light'] {
+  --color-ink: #f4f4f2;
+  --color-ink-soft: #ffffff;
+  --color-ink-softer: #e4e4e0;
+  --color-ink-line: rgba(20, 20, 20, 0.14);
+  --color-bone: #161618;
+  --color-muted: #5c5c5a;
+  --color-lime: #b86a00;
+  --color-lime-dim: #8f5100;
+  --color-teal: #0f8f85;
+}

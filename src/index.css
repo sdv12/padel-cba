@@ -251,3 +251,117 @@ body {
   --color-lime-dim: #8f5100;
   --color-teal: #0f8f85;
 }
+
+/* estilos de diseño de la demo: cambian forma, tipografía y decoración. "base" (Original) no tiene bloque. */
+:root[data-style='moderno'] .btn-cut,
+:root[data-style='moderno'] .btn-cut-sm {
+  clip-path: none;
+  border-radius: 9999px;
+}
+:root[data-style='moderno'] .rounded-lg {
+  border-radius: 1.5rem;
+}
+:root[data-style='moderno'] .rounded-xl {
+  border-radius: 1.25rem;
+}
+:root[data-style='moderno'] .court-lines {
+  background-image: none;
+}
+:root[data-style='moderno'] .ticket-tear::before,
+:root[data-style='moderno'] .ticket-tear::after {
+  display: none;
+}
+
+:root[data-style='clasico'] {
+  --font-display: 'Fraunces', Georgia, serif;
+}
+:root[data-style='clasico'] h1,
+:root[data-style='clasico'] h2,
+:root[data-style='clasico'] h3 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+:root[data-style='clasico'] .btn-cut,
+:root[data-style='clasico'] .btn-cut-sm {
+  clip-path: none;
+  border-radius: 0;
+}
+:root[data-style='clasico'] .rounded-lg,
+:root[data-style='clasico'] .rounded-xl {
+  border-radius: 0;
+}
+:root[data-style='clasico'] .court-lines {
+  background-image: none;
+}
+:root[data-style='clasico'] .bg-grain::before {
+  display: none;
+}
+:root[data-style='clasico'] .ticket-tear {
+  border-top-style: solid;
+}
+:root[data-style='clasico'] .ticket-tear::before,
+:root[data-style='clasico'] .ticket-tear::after {
+  display: none;
+}
+
+:root[data-style='simple'] .btn-cut,
+:root[data-style='simple'] .btn-cut-sm {
+  clip-path: none;
+  border-radius: 0.5rem;
+}
+:root[data-style='simple'] .rounded-lg,
+:root[data-style='simple'] .rounded-xl {
+  border-radius: 0.5rem;
+}
+:root[data-style='simple'] .court-lines {
+  background-image: none;
+}
+:root[data-style='simple'] .bg-grain::before {
+  display: none;
+}
+:root[data-style='simple'] * {
+  box-shadow: none !important;
+}
+:root[data-style='simple'] h1,
+:root[data-style='simple'] h2 {
+  font-weight: 600;
+}
+:root[data-style='simple'] .ticket-tear {
+  border-top-style: solid;
+}
+:root[data-style='simple'] .ticket-tear::before,
+:root[data-style='simple'] .ticket-tear::after {
+  display: none;
+}
+
+:root[data-style='retro'] {
+  --font-display: 'Space Mono', ui-monospace, monospace;
+}
+:root[data-style='retro'] h1,
+:root[data-style='retro'] h2,
+:root[data-style='retro'] h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+:root[data-style='retro'] .btn-cut,
+:root[data-style='retro'] .btn-cut-sm {
+  clip-path: none;
+  border-radius: 0;
+  border: 2px solid var(--color-bone);
+  box-shadow: 4px 4px 0 0 var(--color-bone);
+}
+:root[data-style='retro'] .rounded-lg,
+:root[data-style='retro'] .rounded-xl {
+  border-radius: 0;
+  box-shadow: 6px 6px 0 0 var(--color-ink-line);
+}
+:root[data-style='retro'] .bg-grain::before {
+  opacity: 0.14;
+}
+:root[data-style='retro'] .ticket-tear::before,
+:root[data-style='retro'] .ticket-tear::after {
+  display: none;
+}
+:root[data-style='retro'] h1 svg {
+  display: none;
+}

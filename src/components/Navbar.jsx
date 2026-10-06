@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Menu, Moon, Sun, UserRound, X } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import MyAccount from './MyAccount'
-import PaletteSwitcher, { PaletteList } from './ui/PaletteSwitcher'
+import DesignSwitcher, { DesignList } from './ui/DesignSwitcher'
 
 const LINKS = [
   { href: '#reservas', label: 'Reservar' },
@@ -49,7 +49,7 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
-          <PaletteSwitcher />
+          <DesignSwitcher />
           <button
             onClick={toggleTheme}
             className="grid h-10 w-10 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-lime hover:text-lime"
@@ -111,7 +111,7 @@ export default function Navbar() {
             </a>
           </nav>
           <div className="mt-5">
-            <PaletteList onPick={() => setOpen(false)} />
+            <DesignList onPick={() => setOpen(false)} />
           </div>
         </div>
       )}

@@ -1,9 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { DEFAULT_PALETTE, PALETTES } from '../data/palettes'
+import { DEFAULT_STYLE, STYLES } from '../data/styles'
 
 const THEME_KEY = 'padelcba_theme'
 const PALETTE_KEY = 'padelcba_palette'
+const STYLE_KEY = 'padelcba_style'
 const ThemeContext = createContext(null)
 
 function loadTheme() {
@@ -19,20 +21,21 @@ function loadTheme() {
   return 'dark'
 }
 
-function loadPalette() {
+function loadChoice(key, valid, fallback) {
   try {
-    const saved = localStorage.getItem(PALETTE_KEY)
-    if (PALETTES.some((p) => p.id === saved)) return saved
+    const saved = localStorage.getItem(key)
+    if (valid.some((v) => v.id === saved)) return saved
   } catch {
-    // sin localStorage usamos la paleta por defecto
+    // sin localStorage usamos el valor por defecto
   }
-  return DEFAULT_PALETTE
+  return fallback
 }
 
 export function ThemeProvider({ children }) {
   const { pathname } = useLocation()
   const [theme, setTheme] = useState(loadTheme)
-  const [palette, setPalette] = useState(loadPalette)
+  const [palette, setPalette] = useState(() => loadChoice(PALETTE_KEY, PALETTES, DEFAULT_PALETTE))
+  const [style, setStyle] = useState(() => loadChoice(STYLE_KEY, STYLES, DEFAULT_STYLE))
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -44,22 +47,24 @@ export function ThemeProvider({ children }) {
   }, [theme])
 
   useEffect(() => {
-    // Las paletas alternativas son solo para la demo; la landing B2B siempre usa la original.
+    // Paletas y estilos alternativos son solo para la demo; la landing B2B siempre usa los originales.
     const inDemo = pathname.startsWith('/demo')
     document.documentElement.dataset.palette = inDemo ? palette : DEFAULT_PALETTE
+    document.documentElement.dataset.style = inDemo ? style : DEFAULT_STYLE
     try {
       localStorage.setItem(PALETTE_KEY, palette)
+      localStorage.setItem(STYLE_KEY, style)
     } catch {
       // idem tema
     }
-  }, [palette, pathname])
+  }, [palette, style, pathname])
 
   function toggleTheme() {
     setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, palette, setPalette }}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={{ theme, toggleTheme, palette, setPalette, style, setStyle }}>{children}</ThemeContext.Provider>
   )
 }
 

@@ -16,7 +16,7 @@ export default function Footer() {
   return (
     <footer className="bg-grain relative border-t border-ink-line bg-ink-soft/40">
       <span className="absolute inset-x-0 top-0 h-[2px] bg-lime" />
-      <div className="mx-auto max-w-6xl px-5 py-16">
+      <div className="mx-auto max-w-6xl px-5 py-16 pb-24">
         <div className="grid gap-10 sm:grid-cols-[1.3fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2 font-display text-2xl font-bold text-bone">

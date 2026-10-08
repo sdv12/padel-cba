@@ -10,7 +10,7 @@ import Canteen from '../components/Canteen'
 import VenueInfo from '../components/VenueInfo'
 import Location from '../components/Location'
 import Footer from '../components/Footer'
-import WhatsAppButton from '../components/WhatsAppButton'
+import StickyContactBar from '../components/StickyContactBar'
 
 // Demo en vivo de una sede: esto es lo que ve un jugador si el club usa Padel CBA.
 // La landing B2B (/) linkea acá en vez de mostrar capturas estáticas del producto.
@@ -30,7 +30,7 @@ export default function ClubDemoPage() {
         <Location />
       </main>
       <Footer />
-      <WhatsAppButton />
+      <StickyContactBar />
     </BookingProvider>
   )
 }

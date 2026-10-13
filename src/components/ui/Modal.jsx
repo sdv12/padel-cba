@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
 
 export default function Modal({ onClose, children, maxWidth = 'max-w-md' }) {
@@ -12,7 +13,10 @@ export default function Modal({ onClose, children, maxWidth = 'max-w-md' }) {
     }
   }, [onClose])
 
-  return (
+  // Portal a document.body: si el modal quedara anidado dentro de un ancestro con
+  // backdrop-blur/transform (ej. el header al scrollear), ese ancestro se vuelve el
+  // containing block de los hijos `fixed` y el modal queda atrapado dentro de su caja.
+  return createPortal(
     <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center sm:p-4">
       <button className="absolute inset-0 cursor-default" onClick={onClose} aria-label="Cerrar" />
       <div
@@ -27,6 +31,7 @@ export default function Modal({ onClose, children, maxWidth = 'max-w-md' }) {
         </button>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

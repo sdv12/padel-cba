@@ -20,6 +20,15 @@ export default function Hero() {
     <section id="top" className="bg-grain court-lines relative overflow-hidden pb-20 pt-32 sm:pt-40">
       <CourtGraphic className="pointer-events-none absolute -right-24 top-16 h-[560px] w-[380px] rotate-6 text-lime/[0.07] sm:-right-16" />
 
+      {/* pelota de pádel picando de fondo, puramente decorativa */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[140px] overflow-hidden opacity-60" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="30" height="30" className="tennis-ball absolute bottom-6">
+          <circle cx="16" cy="16" r="15" fill="var(--color-lime)" />
+          <path d="M5 4 Q17 16 5 28" stroke="var(--color-ink)" strokeWidth="1.5" fill="none" opacity="0.35" />
+          <path d="M27 4 Q15 16 27 28" stroke="var(--color-ink)" strokeWidth="1.5" fill="none" opacity="0.35" />
+        </svg>
+      </div>
+
       <div className="relative mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-ink-line px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-teal">

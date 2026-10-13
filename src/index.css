@@ -161,6 +161,56 @@ body {
   }
 }
 
+/* pelota de pádel picando de izquierda a derecha, fondo decorativo del hero B2B */
+@keyframes tennisBallX {
+  from {
+    left: -6%;
+  }
+  to {
+    left: 106%;
+  }
+}
+@keyframes tennisBallY {
+  0%,
+  100% {
+    transform: translateY(0) scale(1.18, 0.82);
+  }
+  10% {
+    transform: translateY(-110px) scale(1, 1);
+  }
+  20% {
+    transform: translateY(0) scale(1.18, 0.82);
+  }
+  32% {
+    transform: translateY(-78px) scale(1, 1);
+  }
+  44% {
+    transform: translateY(0) scale(1.18, 0.82);
+  }
+  56% {
+    transform: translateY(-52px) scale(1, 1);
+  }
+  68% {
+    transform: translateY(0) scale(1.18, 0.82);
+  }
+  80% {
+    transform: translateY(-28px) scale(1, 1);
+  }
+  92% {
+    transform: translateY(0) scale(1.18, 0.82);
+  }
+}
+.tennis-ball {
+  animation:
+    tennisBallX 7s linear infinite,
+    tennisBallY 7s ease-in infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tennis-ball {
+    animation: none;
+  }
+}
+
 /* paletas alternativas de la demo (la original "lima" usa los tokens base). Cada una define
    su versión oscura y clara; la especificidad de [data-palette][data-theme] gana sobre el tema solo. */
 :root[data-palette='arcilla']:not([data-theme='light']) {

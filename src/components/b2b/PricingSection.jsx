@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Check, ShieldCheck, Sparkles } from 'lucide-react'
-import { SETUP_PLANS, MANAGEMENT_MODELS, ADDONS, formatUsd } from '../../data/plans'
+import { SETUP_PLANS, MANAGEMENT_MODELS, ADDONS, SETUP_DEPOSIT_NOTE, formatUsd } from '../../data/plans'
 import SectionKicker from '../ui/SectionKicker'
 
 const FEATURED_INDEX = SETUP_PLANS.findIndex((p) => p.featured)
@@ -17,8 +17,8 @@ export default function PricingSection() {
           Sin sorpresas, sin "a consultar"
         </h2>
         <p className="mt-4 max-w-xl text-muted">
-          Es en dos pasos: pagás una vez la instalación de tu sistema y después elegís cómo se financia el
-          mantenimiento mensual — incluso podés arrancar sin pagar un abono fijo.
+          Pagás una vez la instalación de tu sistema, sumás control de caja si lo necesitás, y elegís cómo se
+          financia el mantenimiento mensual — incluso podés arrancar con una base mínima.
         </p>
 
         {/* Paso 1 */}
@@ -27,7 +27,7 @@ export default function PricingSection() {
             <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-lime/50 font-display text-sm font-bold text-lime">1</span>
             <h3 className="font-display text-2xl font-bold text-bone">Tu sistema llave en mano</h3>
           </div>
-          <p className="mt-1.5 pl-11 text-sm text-muted">Pago único de instalación.</p>
+          <p className="mt-1.5 pl-11 text-sm text-muted">Pago único de instalación. {SETUP_DEPOSIT_NOTE}</p>
 
           <div className="mt-8 hidden gap-5 sm:grid lg:grid-cols-3">
             {SETUP_PLANS.map((p) => (
@@ -60,24 +60,10 @@ export default function PricingSection() {
           </div>
         </div>
 
-        {/* Paso 2 */}
+        {/* Paso 2 (opcional) */}
         <div className="mt-16">
           <div className="flex items-center gap-3">
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-lime/50 font-display text-sm font-bold text-lime">2</span>
-            <h3 className="font-display text-2xl font-bold text-bone">Elegí tu modelo de gestión mensual</h3>
-          </div>
-
-          <div className="mt-8 grid gap-5 sm:grid-cols-2">
-            {MANAGEMENT_MODELS.map((m) => (
-              <ModelCard key={m.id} model={m} />
-            ))}
-          </div>
-        </div>
-
-        {/* Paso 3 (opcional) */}
-        <div className="mt-16">
-          <div className="flex items-center gap-3">
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-teal/50 font-display text-sm font-bold text-teal">3</span>
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-teal/50 font-display text-sm font-bold text-teal">2</span>
             <h3 className="font-display text-2xl font-bold text-bone">Opcional: sumá control de caja</h3>
           </div>
           <p className="mt-1.5 pl-11 text-sm text-muted">Un módulo a medida, pensado para el mostrador.</p>
@@ -97,6 +83,20 @@ export default function PricingSection() {
                 Hablar de diseño a medida
               </a>
             </div>
+          </div>
+        </div>
+
+        {/* Paso 3 */}
+        <div className="mt-16">
+          <div className="flex items-center gap-3">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-lime/50 font-display text-sm font-bold text-lime">3</span>
+            <h3 className="font-display text-2xl font-bold text-bone">Elegí tu modelo de gestión mensual</h3>
+          </div>
+
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+            {MANAGEMENT_MODELS.map((m) => (
+              <ModelCard key={m.id} model={m} />
+            ))}
           </div>
         </div>
       </div>
@@ -192,6 +192,9 @@ function AddonCard({ addon: a }) {
       <div className="mt-5 flex items-baseline gap-1">
         <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(a.price, { from: a.priceFrom })}</span>
       </div>
+      {a.monthly && (
+        <p className="mt-1 text-xs text-muted">+ {formatUsd(a.monthly)}/mes de mantenimiento aparte</p>
+      )}
       <ul className="mt-6 flex-1 space-y-2.5">
         {a.features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-bone">

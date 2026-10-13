@@ -1,5 +1,8 @@
-// Precios de Padel CBA: dos pasos separados — instalación (pago único) y gestión mensual.
+// Precios de Padel CBA: instalación (pago único), addon opcional y gestión mensual.
 // Nada hardcodeado en los componentes: todo sale de acá.
+
+export const SETUP_DEPOSIT_NOTE =
+  'Se abona una seña del 30% para arrancar con los gastos iniciales. El resto se paga cuando el sistema está entregado y funcionando.'
 
 // Paso 1 — sistema llave en mano, pago único de instalación. Estrategia Good/Better/Best:
 // la del medio es la que más conviene vender, por eso va destacada.
@@ -34,7 +37,27 @@ export const SETUP_PLANS = [
   },
 ]
 
-// Paso 2 — cómo se financia el mantenimiento mensual. "Híbrido" es la puerta de entrada (el club
+// Paso 2 (opcional) — add-on a medida para el dueño, separado del setup. Tiene su propio
+// mantenimiento mensual ($50) salvo que se combine con Tarifa Plana (ver promo en MANAGEMENT_MODELS).
+export const ADDONS = [
+  {
+    id: 'caja-cobranzas',
+    name: 'Sistema Interno de Caja y Cobranzas',
+    price: 500,
+    priceFrom: true,
+    monthly: 50,
+    subtitle: 'Adicional al setup, a medida',
+    features: [
+      'Perfiles de usuario: Dueño (ve la plata) y Empleado/Cajero (solo cobra y abre turnos)',
+      'Registro de pagos manuales para el que paga la seña en efectivo en el mostrador',
+      'Control de caja de cantina: stock básico y ventas presenciales',
+      'Reporte de cierre de caja diario: cuánto tiene que haber en efectivo y cuánto entró por transferencia',
+    ],
+    cta: 'Sumar este módulo',
+  },
+]
+
+// Paso 3 — cómo se financia el mantenimiento mensual. "Híbrido" es la puerta de entrada (el club
 // pone una base mínima, el resto lo absorbe el jugador); "Tarifa Plana" es la opción premium,
 // pensada para ir de la mano del setup Marca Blanca — por eso lleva ese badge.
 export const MANAGEMENT_MODELS = [
@@ -61,25 +84,7 @@ export const MANAGEMENT_MODELS = [
     badge: 'Recomendado con Marca Blanca',
     features: ['El jugador no paga cargos extra', 'Señas integradas netas por Mercado Pago', 'Acceso a todos los módulos premium', 'Soporte prioritario 24/7'],
     cta: 'Elegir este modelo',
-    promoNote: 'Si sumás el Módulo de Caja y Cobranzas, queda en $80 USD/mes.',
-  },
-]
-
-// Paso 3 (opcional) — add-on a medida para el dueño, separado del setup y del mantenimiento.
-export const ADDONS = [
-  {
-    id: 'caja-cobranzas',
-    name: 'Sistema Interno de Caja y Cobranzas',
-    price: 500,
-    priceFrom: true,
-    subtitle: 'Adicional al setup, a medida',
-    features: [
-      'Perfiles de usuario: Dueño (ve la plata) y Empleado/Cajero (solo cobra y abre turnos)',
-      'Registro de pagos manuales para el que paga la seña en efectivo en el mostrador',
-      'Control de caja de cantina: stock básico y ventas presenciales',
-      'Reporte de cierre de caja diario: cuánto tiene que haber en efectivo y cuánto entró por transferencia',
-    ],
-    cta: 'Sumar este módulo',
+    promoNote: 'El Módulo de Caja y Cobranzas tiene $50 USD/mes de mantenimiento aparte — pero si lo combinás con Tarifa Plana, el total queda en $100 USD/mes por promoción (en vez de $150).',
   },
 ]
 

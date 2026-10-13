@@ -8,9 +8,14 @@ const GAP_MS = 250
 
 export default function ProblemSection() {
   const containerRef = useRef(null)
+  const scrollRef = useRef(null)
   const timersRef = useRef([])
   const [visibleCount, setVisibleCount] = useState(0)
   const [typing, setTyping] = useState(false)
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
+  }, [visibleCount, typing])
 
   useEffect(() => {
     const el = containerRef.current
@@ -80,7 +85,8 @@ export default function ProblemSection() {
             </div>
           </div>
 
-          <div ref={containerRef} className="min-h-[22rem] space-y-2.5 bg-ink px-4 py-4">
+          <div ref={containerRef} className="h-[22rem] overflow-hidden bg-ink">
+            <div ref={scrollRef} className="h-full space-y-2.5 overflow-y-auto px-4 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {PROBLEM_BUBBLES.slice(0, visibleCount).map((b, i) => (
               <div key={i} className="ml-auto flex max-w-[85%] items-end gap-2" style={{ animation: 'fadeInUp 0.35s ease-out' }}>
                 <div className="rounded-lg rounded-br-none border border-ink-line bg-ink-soft px-3.5 py-2.5">
@@ -105,6 +111,7 @@ export default function ProblemSection() {
                 <MessageCircle size={13} /> y así todos los días.
               </div>
             )}
+            </div>
           </div>
         </div>
       </div>

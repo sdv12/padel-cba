@@ -67,31 +67,45 @@ export default function ProblemSection() {
           <p className="mt-4 max-w-md font-semibold text-bone">Todo eso puede gestionarse desde un solo lugar.</p>
         </div>
 
-        <div ref={containerRef} className="min-h-[23rem] space-y-2.5 rounded-lg border border-ink-line bg-ink-soft/60 p-5">
-          {PROBLEM_BUBBLES.slice(0, visibleCount).map((b, i) => (
-            <div key={i} className="ml-auto flex max-w-[80%] items-end gap-2" style={{ animation: 'fadeInUp 0.35s ease-out' }}>
-              <div className="rounded-lg rounded-br-none border border-ink-line bg-ink px-3.5 py-2.5">
-                <p className="text-sm text-bone">{b.text}</p>
-                <p className="mt-1 text-right text-[10px] text-muted">{b.time}</p>
-              </div>
+        {/* Marco de celular: refuerza que esto es "en vivo", como una notificación real */}
+        <div className="mx-auto w-full max-w-[320px] rounded-[2.5rem] border-[6px] border-ink-line bg-ink-soft/60 p-2.5 shadow-[8px_8px_0_0_var(--color-ink-line)]">
+          <div className="flex items-center justify-between rounded-t-[1.5rem] bg-ink px-4 pb-2 pt-3">
+            <span className="h-1.5 w-10 rounded-full bg-ink-line" />
+          </div>
+          <div className="flex items-center gap-2 border-b border-ink-line bg-ink px-4 py-2.5">
+            <span className="grid h-7 w-7 place-items-center rounded-full bg-lime/20 text-xs font-bold text-lime">C</span>
+            <div>
+              <p className="text-xs font-bold text-bone">Cliente</p>
+              <p className="text-[10px] text-lime">en línea</p>
             </div>
-          ))}
+          </div>
 
-          {typing && (
-            <div className="ml-auto flex max-w-[80%] items-end gap-2" style={{ animation: 'fadeInUp 0.25s ease-out' }}>
-              <div className="flex items-center gap-1 rounded-lg rounded-br-none border border-ink-line bg-ink px-4 py-3.5">
-                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted [animation-delay:-0.3s]" />
-                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted [animation-delay:-0.15s]" />
-                <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted" />
+          <div ref={containerRef} className="min-h-[22rem] space-y-2.5 bg-ink px-4 py-4">
+            {PROBLEM_BUBBLES.slice(0, visibleCount).map((b, i) => (
+              <div key={i} className="ml-auto flex max-w-[85%] items-end gap-2" style={{ animation: 'fadeInUp 0.35s ease-out' }}>
+                <div className="rounded-lg rounded-br-none border border-ink-line bg-ink-soft px-3.5 py-2.5">
+                  <p className="text-sm text-bone">{b.text}</p>
+                  <p className="mt-1 text-right text-[10px] text-muted">{b.time}</p>
+                </div>
               </div>
-            </div>
-          )}
+            ))}
 
-          {allDone && (
-            <div className="flex items-center gap-2 pt-2 text-xs text-muted" style={{ animation: 'fadeInUp 0.35s ease-out' }}>
-              <MessageCircle size={13} /> y así todos los días.
-            </div>
-          )}
+            {typing && (
+              <div className="ml-auto flex max-w-[85%] items-end gap-2" style={{ animation: 'fadeInUp 0.25s ease-out' }}>
+                <div className="flex items-center gap-1 rounded-lg rounded-br-none border border-ink-line bg-ink-soft px-4 py-3.5">
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted [animation-delay:-0.3s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted [animation-delay:-0.15s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted" />
+                </div>
+              </div>
+            )}
+
+            {allDone && (
+              <div className="flex items-center gap-2 pt-2 text-xs text-muted" style={{ animation: 'fadeInUp 0.35s ease-out' }}>
+                <MessageCircle size={13} /> y así todos los días.
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

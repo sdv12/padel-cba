@@ -9,6 +9,7 @@ import Features from '../components/Features'
 import Canteen from '../components/Canteen'
 import VenueInfo from '../components/VenueInfo'
 import Location from '../components/Location'
+import AdminDemoSection from '../components/AdminDemoSection'
 import Footer from '../components/Footer'
 import StickyContactBar from '../components/StickyContactBar'
 
@@ -28,6 +29,7 @@ export default function ClubDemoPage() {
         <Canteen />
         <VenueInfo />
         <Location />
+        <AdminDemoSection />
       </main>
       <Footer />
       <StickyContactBar />

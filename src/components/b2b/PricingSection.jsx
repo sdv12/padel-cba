@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Check, ShieldCheck } from 'lucide-react'
-import { SETUP_PLANS, MANAGEMENT_MODELS, formatUsd } from '../../data/plans'
+import { Check, ShieldCheck, Sparkles } from 'lucide-react'
+import { SETUP_PLANS, MANAGEMENT_MODELS, ADDONS, formatUsd } from '../../data/plans'
 import SectionKicker from '../ui/SectionKicker'
 
 const FEATURED_INDEX = SETUP_PLANS.findIndex((p) => p.featured)
@@ -73,6 +73,32 @@ export default function PricingSection() {
             ))}
           </div>
         </div>
+
+        {/* Paso 3 (opcional) */}
+        <div className="mt-16">
+          <div className="flex items-center gap-3">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-teal/50 font-display text-sm font-bold text-teal">3</span>
+            <h3 className="font-display text-2xl font-bold text-bone">Opcional: sumá control de caja</h3>
+          </div>
+          <p className="mt-1.5 pl-11 text-sm text-muted">Un módulo a medida, pensado para el mostrador.</p>
+
+          <div className="mt-8 grid gap-5 lg:grid-cols-[1.3fr_1fr]">
+            {ADDONS.map((a) => (
+              <AddonCard key={a.id} addon={a} />
+            ))}
+            <div className="flex flex-col justify-center gap-2 rounded-lg border border-dashed border-ink-line p-6">
+              <Sparkles size={18} className="text-teal" />
+              <p className="text-sm font-semibold text-bone">¿Querés un diseño 100% único?</p>
+              <p className="text-sm text-muted">
+                Si ninguna de nuestras paletas te convence y querés algo hecho a medida para tu marca, lo charlamos —
+                tiene un precio aparte, a convenir según el alcance.
+              </p>
+              <a href="#contacto" className="btn-cut mt-2 w-fit border border-ink-line px-5 py-2.5 text-sm font-semibold text-bone transition-colors hover:border-teal hover:text-teal">
+                Hablar de diseño a medida
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -107,6 +133,7 @@ function SetupCard({ plan: p, compact = false }) {
         ))}
         {hiddenCount > 0 && <li className="text-sm text-muted">+ {hiddenCount} más</li>}
       </ul>
+      {p.customNote && <p className="mt-4 text-xs text-muted">{p.customNote}</p>}
       <a
         href="#contacto"
         className={`mt-7 py-3 text-center text-sm font-bold transition-transform hover:scale-[1.02] ${
@@ -144,6 +171,7 @@ function ModelCard({ model: m }) {
           </li>
         ))}
       </ul>
+      {m.promoNote && <p className="mt-4 text-xs text-teal">{m.promoNote}</p>}
       <a
         href="#contacto"
         className={`btn-cut mt-7 py-3 text-center text-sm font-bold transition-transform hover:scale-[1.02] ${
@@ -151,6 +179,31 @@ function ModelCard({ model: m }) {
         }`}
       >
         {m.cta}
+      </a>
+    </div>
+  )
+}
+
+function AddonCard({ addon: a }) {
+  return (
+    <div className="flex flex-col rounded-lg border border-ink-line bg-ink p-6">
+      <h4 className="font-display text-xl font-bold text-bone">{a.name}</h4>
+      <p className="mt-1 text-sm text-muted">{a.subtitle}</p>
+      <div className="mt-5 flex items-baseline gap-1">
+        <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(a.price, { from: a.priceFrom })}</span>
+      </div>
+      <ul className="mt-6 flex-1 space-y-2.5">
+        {a.features.map((f) => (
+          <li key={f} className="flex items-start gap-2 text-sm text-bone">
+            <Check size={14} className="mt-0.5 shrink-0 text-teal" /> {f}
+          </li>
+        ))}
+      </ul>
+      <a
+        href="#contacto"
+        className="btn-cut mt-7 border border-ink-line py-3 text-center text-sm font-bold text-bone transition-transform hover:scale-[1.02] hover:border-teal hover:text-teal"
+      >
+        {a.cta}
       </a>
     </div>
   )

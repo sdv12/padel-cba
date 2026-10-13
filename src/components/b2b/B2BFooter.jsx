@@ -1,7 +1,8 @@
-import { ArrowUp, MessageCircle } from 'lucide-react'
+import { ArrowUp, AtSign, MessageCircle } from 'lucide-react'
 import pkg from '../../../package.json'
 
 const B2B_WHATSAPP = '5493516000000' // placeholder — mismo número que en FinalCta.jsx
+const INSTAGRAM_HANDLE = 'padelcba' // placeholder — reemplazar por la cuenta real
 
 const PRODUCT_LINKS = [
   { href: '#producto', label: 'Producto' },
@@ -14,12 +15,17 @@ const OTHER_LINKS = [
   { href: '#contacto', label: 'Contacto' },
 ]
 
+const LEGAL_LINKS = [
+  { href: '/privacidad', label: 'Privacidad' },
+  { href: '/terminos', label: 'Términos' },
+]
+
 export default function B2BFooter() {
   return (
     <footer className="bg-grain relative border-t border-ink-line bg-ink-soft/40">
       <span className="absolute inset-x-0 top-0 h-[2px] bg-lime" />
       <div className="mx-auto max-w-6xl px-5 py-16">
-        <div className="grid gap-10 sm:grid-cols-[1.4fr_1fr_1fr_auto]">
+        <div className="grid gap-10 sm:grid-cols-[1.4fr_1fr_1fr_1fr_auto]">
           <div>
             <div className="flex items-center gap-2 font-display text-2xl font-bold text-bone">
               <span className="grid h-9 w-9 place-items-center rounded-full border-2 border-lime">
@@ -28,6 +34,9 @@ export default function B2BFooter() {
               PADEL<span className="text-lime">·</span>CBA
             </div>
             <p className="mt-3 max-w-xs text-sm text-muted">Software para gestionar complejos de pádel en Córdoba.</p>
+            <p className="mt-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-ink-line px-3 py-1 text-[11px] text-muted">
+              🧉 Producto cordobés
+            </p>
           </div>
 
           <div>
@@ -60,16 +69,38 @@ export default function B2BFooter() {
           </div>
 
           <div>
+            <p className="inline-block border-b-2 border-ink-line pb-1 text-xs font-bold uppercase tracking-wide text-muted">Legal</p>
+            <nav className="mt-4 flex flex-col gap-2.5">
+              {LEGAL_LINKS.map((l) => (
+                <a key={l.href} href={l.href} className="text-sm text-bone transition-colors hover:text-teal">
+                  {l.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          <div>
             <p className="inline-block border-b-2 border-lime pb-1 text-xs font-bold uppercase tracking-wide text-muted">Hablemos</p>
-            <a
-              href={`https://wa.me/${B2B_WHATSAPP}?text=${encodeURIComponent('Hola! Quiero hablar sobre Padel CBA para mi club.')}`}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="WhatsApp"
-              className="mt-4 grid h-11 w-11 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-teal hover:text-teal"
-            >
-              <MessageCircle size={18} />
-            </a>
+            <div className="mt-4 flex gap-2.5">
+              <a
+                href={`https://wa.me/${B2B_WHATSAPP}?text=${encodeURIComponent('Hola! Quiero hablar sobre Padel CBA para mi club.')}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="WhatsApp"
+                className="grid h-11 w-11 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-teal hover:text-teal"
+              >
+                <MessageCircle size={18} />
+              </a>
+              <a
+                href={`https://instagram.com/${INSTAGRAM_HANDLE}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="grid h-11 w-11 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-clay hover:text-clay"
+              >
+                <AtSign size={18} />
+              </a>
+            </div>
           </div>
         </div>
 
@@ -78,6 +109,8 @@ export default function B2BFooter() {
             <span>© {new Date().getFullYear()} Padel CBA.</span>
             <span className="text-ink-line">·</span>
             <span className="tabular-nums">v{pkg.version}</span>
+            <span className="text-ink-line">·</span>
+            <span>Hecho por Sergio Villegas</span>
           </div>
           <a href="#top" className="flex items-center gap-1.5 text-bone transition-colors hover:text-lime">
             Volver arriba <ArrowUp size={13} />

@@ -30,24 +30,25 @@ export const SETUP_PLANS = [
     features: ['Todo lo de Llave en Mano', 'Rediseño visual exclusivo de tu portada', 'Integración avanzada con bot de WhatsApp propio'],
     cta: 'Contactar',
     ctaStyle: 'ghost',
+    customNote: '¿Lo querés 100% a medida, fuera de nuestras paletas? Se charla — precio a convenir.',
   },
 ]
 
-// Paso 2 — cómo se financia el mantenimiento mensual. El modelo "Costo por Servicio" es el
-// gancho: riesgo cero para el club, por eso es el que se recomienda y destaca por default.
+// Paso 2 — cómo se financia el mantenimiento mensual. "Híbrido" es la puerta de entrada (el club
+// pone una base mínima, el resto lo absorbe el jugador); "Tarifa Plana" es la opción premium,
+// pensada para ir de la mano del setup Marca Blanca — por eso lleva ese badge.
 export const MANAGEMENT_MODELS = [
   {
-    id: 'servicio',
-    name: 'Costo por Servicio',
-    price: 0,
-    subtitle: 'El mantenimiento lo pagan los jugadores',
-    recommended: true,
-    badge: 'Riesgo cero',
+    id: 'hibrido',
+    name: 'Híbrido',
+    price: 50,
+    subtitle: 'Mantenimiento compartido',
+    recommended: false,
+    badge: null,
     features: [
-      'El club no paga abono fijo mensual',
+      'El club paga una base mínima operativa',
       'Cargo de servicio de $500 ARS al jugador en la seña de Mercado Pago',
       'Acceso total a Partidos Abiertos y Cantina',
-      'Riesgo cero para el club',
     ],
     cta: 'Elegir este modelo',
   },
@@ -56,13 +57,33 @@ export const MANAGEMENT_MODELS = [
     name: 'Tarifa Plana',
     price: 100,
     subtitle: 'Ideal para clubes exclusivos',
-    recommended: false,
-    badge: null,
+    recommended: true,
+    badge: 'Recomendado con Marca Blanca',
     features: ['El jugador no paga cargos extra', 'Señas integradas netas por Mercado Pago', 'Acceso a todos los módulos premium', 'Soporte prioritario 24/7'],
     cta: 'Elegir este modelo',
+    promoNote: 'Si sumás el Módulo de Caja y Cobranzas, queda en $80 USD/mes.',
   },
 ]
 
-export function formatUsd(n) {
-  return n === 0 ? '$0 USD' : `$${n} USD`
+// Paso 3 (opcional) — add-on a medida para el dueño, separado del setup y del mantenimiento.
+export const ADDONS = [
+  {
+    id: 'caja-cobranzas',
+    name: 'Sistema Interno de Caja y Cobranzas',
+    price: 500,
+    priceFrom: true,
+    subtitle: 'Adicional al setup, a medida',
+    features: [
+      'Perfiles de usuario: Dueño (ve la plata) y Empleado/Cajero (solo cobra y abre turnos)',
+      'Registro de pagos manuales para el que paga la seña en efectivo en el mostrador',
+      'Control de caja de cantina: stock básico y ventas presenciales',
+      'Reporte de cierre de caja diario: cuánto tiene que haber en efectivo y cuánto entró por transferencia',
+    ],
+    cta: 'Sumar este módulo',
+  },
+]
+
+export function formatUsd(n, { from = false } = {}) {
+  const base = n === 0 ? '$0 USD' : `$${n} USD`
+  return from ? `Desde ${base}` : base
 }

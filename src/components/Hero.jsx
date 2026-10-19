@@ -211,61 +211,86 @@ export default function Hero() {
             </div>
           </div>
         </div>
+
+        {/* Cinta de números, estilo "10+ años / 8K socios / 97% satisfacción" */}
+        <div className="relative mx-auto mt-16 grid max-w-4xl grid-cols-2 gap-px overflow-hidden rounded-2xl bg-ink-line px-5 sm:grid-cols-4" style={{ marginInline: 'auto' }}>
+          {stats.map((s) => (
+            <div key={s.label} className="bg-ink-soft px-4 py-7 text-center">
+              <div className={`font-display text-3xl font-extrabold tabular-nums ${s.accent}`}>{s.value}</div>
+              <div className="mt-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted">{s.label}</div>
+            </div>
+          ))}
+        </div>
       </section>
     )
   }
 
-  // Aqua Pro: clínico/SaaS claro — bloque suave con blob, chips de stats debajo, todo redondeado.
+  // Aqua Pro: editorial bold — titular gigante a la izquierda, collage de fichas superpuestas a la derecha.
   if (style === 'aqua') {
     return (
-      <section id="top" className="pb-20 pt-32 sm:pt-40">
-        <div className="mx-auto max-w-3xl px-5 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-ink-line bg-ink-soft px-4 py-1.5 text-xs font-semibold text-teal">
-            Turnos hasta las 00 hs
-          </span>
-          <h1 className="mt-6 font-display text-5xl font-extrabold leading-[1.05] text-bone sm:text-6xl">{headline}</h1>
-          <p className="mx-auto mt-6 max-w-md text-lg text-muted">
-            4 canchas, turnos de 1:30 y 2 hs desde las 8 de la mañana. Si te faltan jugadores, armamos el partido con
-            gente de tu categoría.
-          </p>
-          <div className="flex justify-center">{ctas}</div>
-        </div>
-
-        <div className="relative mx-auto mt-16 max-w-4xl px-5">
-          <div className="rounded-xl bg-ink-soft p-10">
-            <CourtGraphic className="mx-auto h-56 w-full max-w-2xl text-teal/20" />
+      <section id="top" className="overflow-hidden pb-20 pt-32 sm:pt-40">
+        <div className="mx-auto grid max-w-6xl gap-16 px-5 lg:grid-cols-[1fr_0.85fr] lg:items-center">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-ink-line px-4 py-1.5 text-xs font-semibold text-teal">
+              Turnos hasta las 00 hs
+            </span>
+            <h1 className="mt-6 font-display text-6xl font-extrabold leading-[0.9] tracking-tight text-bone sm:text-7xl">{headline}</h1>
+            <p className="mt-7 max-w-sm text-lg text-muted">
+              4 canchas, turnos de 1:30 y 2 hs desde las 8 de la mañana. Reservás online y confirmás al instante.
+            </p>
+            {ctas}
           </div>
-          <div className="mx-auto mt-6 flex max-w-2xl flex-wrap justify-center gap-3">
-            {stats.map((s) => (
-              <span key={s.label} className="inline-flex items-center gap-2 rounded-full bg-ink-soft px-4 py-2.5 text-sm text-bone shadow-sm">
-                <span className={`font-display font-bold ${s.accent}`}>{s.value}</span> {s.label}
+
+          <div className="relative mx-auto h-[26rem] w-full max-w-sm">
+            <div className="absolute inset-x-6 top-0 h-64 rounded-[2rem] bg-gradient-to-br from-teal/20 via-ink-soft to-lime/15 p-6">
+              <CourtGraphic className="h-full w-full text-teal/25" />
+            </div>
+            <div className="absolute -left-2 bottom-20 w-44 rounded-2xl bg-ink-soft p-4 shadow-xl">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-teal">Partido abierto</p>
+              <p className="mt-1 font-display text-lg font-bold text-bone">{openToday} buscando gente</p>
+            </div>
+            <div className="absolute -right-2 bottom-0 flex items-center gap-3 rounded-2xl bg-lime px-5 py-3.5 shadow-xl">
+              <span className="font-display text-2xl font-extrabold tabular-nums text-inkfix">{freeCount}</span>
+              <span className="text-xs font-semibold leading-tight text-inkfix">
+                turnos
+                <br />
+                libres hoy
               </span>
-            ))}
+            </div>
           </div>
         </div>
       </section>
     )
   }
 
-  // Onix: premium oscuro — cinta de números grandes, sin decoración, hairlines finas.
+  // Onix: panel oscuro a pantalla completa, titular superpuesto y badge flotante — premium, estilo app.
   if (style === 'onix') {
     return (
-      <section id="top" className="pb-20 pt-32 sm:pt-40">
-        <div className="mx-auto max-w-4xl px-5 text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-teal">Turnos hasta las 00 hs</span>
-          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.02] tracking-tight text-bone sm:text-7xl">{headline}</h1>
-          <p className="mx-auto mt-6 max-w-md text-lg text-muted">
-            4 canchas, turnos de 1:30 y 2 hs desde las 8 de la mañana. Si te faltan jugadores, armamos el partido con
-            gente de tu categoría.
-          </p>
-          <div className="flex justify-center">{ctas}</div>
+      <section id="top" className="px-5 pb-20 pt-32 sm:pt-40">
+        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-ink-soft px-6 py-16 sm:px-14 sm:py-24">
+          <CourtGraphic className="pointer-events-none absolute inset-0 h-full w-full text-lime/10" />
+          <div className="relative max-w-xl">
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-lime">Turnos hasta las 00 hs</span>
+            <h1 className="mt-5 font-display text-5xl font-bold leading-[1.02] tracking-tight text-bone sm:text-6xl">{headline}</h1>
+            <p className="mt-6 max-w-md text-lg text-muted">
+              4 canchas, turnos de 1:30 y 2 hs desde las 8 de la mañana. Si te faltan jugadores, armamos el partido con
+              gente de tu categoría.
+            </p>
+          </div>
+          <a
+            href="#reservas"
+            className="btn-cut group relative mt-9 inline-flex items-center gap-2 bg-lime px-8 py-4 font-bold text-inkfix transition-transform hover:scale-105 sm:absolute sm:bottom-10 sm:right-10 sm:mt-0"
+          >
+            Reservar ahora
+            <ArrowDownRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+          </a>
         </div>
 
-        <div className="mx-auto mt-16 flex max-w-3xl divide-x divide-ink-line border-y border-ink-line px-5">
+        <div className="mx-auto mt-10 flex max-w-6xl flex-wrap justify-center gap-x-10 gap-y-3 text-center">
           {stats.map((s) => (
-            <div key={s.label} className="flex-1 px-4 py-6 text-center">
-              <div className={`font-display text-3xl font-bold tabular-nums ${s.accent}`}>{s.value}</div>
-              <div className="mt-1.5 text-[11px] uppercase tracking-[0.15em] text-muted">{s.label}</div>
+            <div key={s.label} className="flex items-baseline gap-2">
+              <span className={`font-display text-2xl font-bold tabular-nums ${s.accent}`}>{s.value}</span>
+              <span className="text-xs uppercase tracking-wide text-muted">{s.label}</span>
             </div>
           ))}
         </div>

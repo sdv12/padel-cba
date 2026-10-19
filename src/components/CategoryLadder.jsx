@@ -78,6 +78,23 @@ export default function CategoryLadder() {
         </div>
       )}
 
+      {(style === 'prime' || style === 'aqua' || style === 'onix') && (
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {REVERSED.map((c) => (
+            <div key={c.id} className="rounded-lg border border-ink-line bg-ink-soft/40 p-5">
+              <span
+                className="grid h-11 w-11 place-items-center rounded-full font-display text-sm font-extrabold"
+                style={{ background: `color-mix(in srgb, ${c.color} 15%, transparent)`, color: c.color }}
+              >
+                {c.label}
+              </span>
+              <p className="mt-3 font-display text-base font-bold text-bone">{c.name}</p>
+              <p className="mt-1 text-sm text-muted">{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
       {style === 'base' && (
         <div className="mt-14 space-y-2">
           {REVERSED.map((c, i) => {

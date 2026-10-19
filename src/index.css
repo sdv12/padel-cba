@@ -415,3 +415,95 @@ body {
 :root[data-style='retro'] h1 svg {
   display: none;
 }
+
+/* ==== Plan medio: estilos "template premium" (más personalizados, no solo color) ==== */
+
+/* Prime — SaaS bold, pill buttons, tarjetas flotantes con sombra marcada */
+:root[data-style='prime'] {
+  --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
+}
+:root[data-style='prime'] .btn-cut,
+:root[data-style='prime'] .btn-cut-sm {
+  clip-path: none;
+  border-radius: 999px;
+}
+:root[data-style='prime'] .rounded-lg,
+:root[data-style='prime'] .rounded-xl {
+  border-radius: 1.25rem;
+}
+:root[data-style='prime'] .court-lines {
+  background-image: none;
+}
+:root[data-style='prime'] .bg-grain::before {
+  display: none;
+}
+:root[data-style='prime'] .ticket-tear::before,
+:root[data-style='prime'] .ticket-tear::after {
+  display: none;
+}
+:root[data-style='prime'] h1,
+:root[data-style='prime'] h2,
+:root[data-style='prime'] h3 {
+  letter-spacing: -0.02em;
+}
+
+/* Aqua Pro — clínico/SaaS claro, muy redondeado, sombras suaves, sin texturas */
+:root[data-style='aqua'] {
+  --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+}
+:root[data-style='aqua'] .btn-cut,
+:root[data-style='aqua'] .btn-cut-sm {
+  clip-path: none;
+  border-radius: 999px;
+}
+:root[data-style='aqua'] .rounded-lg,
+:root[data-style='aqua'] .rounded-xl {
+  border-radius: 1.5rem;
+}
+:root[data-style='aqua'] .court-lines {
+  background-image: none;
+}
+:root[data-style='aqua'] .bg-grain::before {
+  display: none;
+}
+:root[data-style='aqua'] .ticket-tear::before,
+:root[data-style='aqua'] .ticket-tear::after {
+  display: none;
+}
+:root[data-style='aqua'] * {
+  box-shadow: none !important;
+}
+:root[data-style='aqua'] h1,
+:root[data-style='aqua'] h2,
+:root[data-style='aqua'] h3 {
+  font-weight: 700;
+}
+
+/* Onix — premium oscuro, geométrico, hairlines finas, mayúsculas chicas */
+:root[data-style='onix'] {
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+:root[data-style='onix'] .btn-cut,
+:root[data-style='onix'] .btn-cut-sm {
+  clip-path: none;
+  border-radius: 0.375rem;
+}
+:root[data-style='onix'] .rounded-lg,
+:root[data-style='onix'] .rounded-xl {
+  border-radius: 0.375rem;
+}
+:root[data-style='onix'] .court-lines {
+  background-image: none;
+}
+:root[data-style='onix'] .bg-grain::before {
+  display: none;
+}
+:root[data-style='onix'] .ticket-tear::before,
+:root[data-style='onix'] .ticket-tear::after {
+  display: none;
+}
+:root[data-style='onix'] h1,
+:root[data-style='onix'] h2,
+:root[data-style='onix'] h3 {
+  letter-spacing: -0.01em;
+}

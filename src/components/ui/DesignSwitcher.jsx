@@ -1,14 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, Palette, Shapes } from 'lucide-react'
+import { Check, Palette, Shapes, Sparkles } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import { PALETTES } from '../../data/palettes'
 import { STYLES } from '../../data/styles'
 
-function Group({ title, icon: Icon, children }) {
+const BASE_STYLES = STYLES.filter((s) => s.tier === 'base')
+const MEDIO_STYLES = STYLES.filter((s) => s.tier === 'medio')
+
+function Group({ title, icon: Icon, badge, children }) {
   return (
     <div className="mb-2 last:mb-0">
       <p className="flex items-center gap-1.5 px-3 pb-1 pt-2 text-[10px] font-bold uppercase tracking-wide text-muted">
         <Icon size={11} /> {title}
+        {badge && (
+          <span className="ml-auto rounded-full bg-lime/15 px-2 py-0.5 text-[9px] font-bold normal-case tracking-normal text-lime">
+            {badge}
+          </span>
+        )}
       </p>
       {children}
     </div>
@@ -48,8 +56,22 @@ function DesignOptions({ onPick }) {
           </Option>
         ))}
       </Group>
-      <Group title="Estilo" icon={Shapes}>
-        {STYLES.map((s) => (
+      <Group title="Estilo · Plan base" icon={Shapes}>
+        {BASE_STYLES.map((s) => (
+          <Option
+            key={s.id}
+            active={style === s.id}
+            onClick={() => {
+              setStyle(s.id)
+              onPick?.()
+            }}
+          >
+            <span className="font-semibold">{s.name}</span>
+          </Option>
+        ))}
+      </Group>
+      <Group title="Estilo · Plan medio" icon={Sparkles} badge="Premium">
+        {MEDIO_STYLES.map((s) => (
           <Option
             key={s.id}
             active={style === s.id}

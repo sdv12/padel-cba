@@ -62,6 +62,31 @@ export default function Features() {
         </div>
       )}
 
+      {(style === 'prime' || style === 'aqua' || style === 'onix') && (
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((f, i) => {
+            const Icon = f.icon
+            const highlighted = i === 1
+            return (
+              <div
+                key={f.title}
+                className={`rounded-lg p-6 ${highlighted ? 'bg-lime text-inkfix' : 'border border-ink-line bg-ink-soft/40 text-bone'}`}
+              >
+                <span
+                  className={`grid h-11 w-11 place-items-center rounded-full ${
+                    highlighted ? 'bg-inkfix/15 text-inkfix' : `bg-ink-softer ${f.accent}`
+                  }`}
+                >
+                  <Icon size={19} />
+                </span>
+                <h3 className={`mt-4 font-display text-lg font-bold ${highlighted ? 'text-inkfix' : 'text-bone'}`}>{f.title}</h3>
+                <p className={`mt-1.5 text-sm ${highlighted ? 'text-inkfix/80' : 'text-muted'}`}>{f.desc}</p>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
       {style === 'base' && (
         <div className="mt-14 border-t border-ink-line">
           {FEATURES.map((f, i) => (

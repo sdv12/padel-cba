@@ -73,6 +73,22 @@ export default function VenueInfo() {
         </div>
       )}
 
+      {(style === 'prime' || style === 'aqua' || style === 'onix') && (
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {courts.map((c, i) => (
+            <div key={c.id} className="rounded-lg border border-ink-line bg-ink-soft/40 p-6">
+              <span className="font-display text-sm font-extrabold tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
+              <h3 className="mt-3 font-display text-lg font-bold text-bone">{c.name}</h3>
+              <p className="mt-1 text-sm text-muted">{c.tag}</p>
+              <span className={`mt-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${c.indoor ? 'bg-teal/10 text-teal' : 'bg-lime/10 text-lime'}`}>
+                {c.indoor ? <MoonStar size={12} /> : <SunMedium size={12} />}
+                {c.indoor ? 'Techada' : 'Descubierta'}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {style === 'base' && (
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {courts.map((c, i) => (

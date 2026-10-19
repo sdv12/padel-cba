@@ -1,6 +1,7 @@
 import { ArrowUp, MessageCircle } from 'lucide-react'
 import pkg from '../../package.json'
 import { VENUE, waLink } from '../data/venue'
+import { useTheme } from '../context/ThemeContext'
 import InstagramIcon from './ui/InstagramIcon'
 
 const NAV = [
@@ -13,6 +14,60 @@ const NAV = [
 ]
 
 export default function Footer() {
+  const { style } = useTheme()
+  const isPremium = style === 'prime' || style === 'aqua' || style === 'onix'
+
+  if (isPremium) {
+    return (
+      <footer className="relative border-t border-ink-line bg-ink-soft/60">
+        <div className="mx-auto max-w-5xl px-5 py-20 text-center">
+          <h2 className="mx-auto max-w-xl font-display text-3xl font-extrabold text-bone sm:text-4xl">
+            ¿Listo para tu próximo turno?
+          </h2>
+          <p className="mx-auto mt-3 max-w-md text-muted">Reservá online o escribinos si te falta gente para completar el partido.</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a href="#reservas" className="btn-cut bg-lime px-7 py-3.5 font-bold text-inkfix transition-transform hover:scale-105">
+              Reservar ahora
+            </a>
+            <a
+              href={waLink('Hola! Tengo una consulta sobre las canchas.')}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-cut inline-flex items-center gap-2 border border-ink-line px-7 py-3.5 font-semibold text-bone transition-colors hover:border-teal hover:text-teal"
+            >
+              <MessageCircle size={16} /> WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <div className="border-t border-ink-line px-5 py-8 pb-24">
+          <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 text-xs text-muted sm:flex-row sm:justify-between">
+            <div className="flex items-center gap-2 font-display text-lg font-bold text-bone">
+              <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-lime">
+                <span className="h-2.5 w-2.5 rounded-full bg-lime" />
+              </span>
+              PADEL<span className="text-lime">·</span>CBA
+            </div>
+            <div className="flex items-center gap-3">
+              <a
+                href={VENUE.instagram}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="grid h-9 w-9 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-lime hover:text-lime"
+              >
+                <InstagramIcon size={15} />
+              </a>
+              <span>© {new Date().getFullYear()} Padel Cba</span>
+              <span className="text-ink-line">·</span>
+              <span className="tabular-nums">v{pkg.version}</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    )
+  }
+
   return (
     <footer className="bg-grain relative border-t border-ink-line bg-ink-soft/40">
       <span className="absolute inset-x-0 top-0 h-[2px] bg-lime" />

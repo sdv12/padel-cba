@@ -165,6 +165,109 @@ export default function Hero() {
     )
   }
 
+  // Prime: SaaS bold — panel flotante con tarjetas de stats superpuestas, botones pill.
+  if (style === 'prime') {
+    return (
+      <section id="top" className="relative overflow-hidden pb-20 pt-32 sm:pt-40">
+        <div className="relative mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full bg-lime px-4 py-1.5 text-xs font-bold text-inkfix">
+              Turnos hasta las 00 hs
+            </span>
+            <h1 className="mt-6 max-w-xl font-display text-5xl font-extrabold leading-[0.98] tracking-tight text-bone sm:text-7xl">
+              {headline}
+            </h1>
+            <p className="mt-7 max-w-md text-lg text-muted">
+              4 canchas, turnos de 1:30 y 2 hs desde las 8 de la mañana. Si te faltan jugadores, armamos el partido
+              con gente de tu categoría.
+            </p>
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <a href="#reservas" className="btn-cut group inline-flex items-center gap-2 bg-lime px-8 py-4 font-bold text-inkfix transition-transform hover:scale-105">
+                Ver horarios
+                <ArrowDownRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+              </a>
+              <a href="#abiertos" className="btn-cut inline-flex items-center gap-2 border-2 border-ink-line px-8 py-4 font-semibold text-bone transition-colors hover:border-teal hover:text-teal">
+                Sumate a un partido
+              </a>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="rounded-xl bg-ink-soft p-8">
+              <CourtGraphic className="h-64 w-full text-lime/20" />
+            </div>
+            <div className="absolute -left-6 -top-6 rounded-xl border border-ink-line bg-ink px-5 py-4 shadow-xl">
+              <div className="font-display text-2xl font-extrabold tabular-nums text-lime">{freeCount}</div>
+              <div className="text-[11px] font-medium uppercase tracking-wide text-muted">turnos libres hoy</div>
+            </div>
+            <div className="absolute -bottom-6 -right-4 rounded-xl border border-ink-line bg-ink px-5 py-4 shadow-xl">
+              <div className="font-display text-2xl font-extrabold tabular-nums text-teal">{openToday}</div>
+              <div className="text-[11px] font-medium uppercase tracking-wide text-muted">partidos abiertos</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // Aqua Pro: clínico/SaaS claro — bloque suave con blob, chips de stats debajo, todo redondeado.
+  if (style === 'aqua') {
+    return (
+      <section id="top" className="pb-20 pt-32 sm:pt-40">
+        <div className="mx-auto max-w-3xl px-5 text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-ink-line bg-ink-soft px-4 py-1.5 text-xs font-semibold text-teal">
+            Turnos hasta las 00 hs
+          </span>
+          <h1 className="mt-6 font-display text-5xl font-extrabold leading-[1.05] text-bone sm:text-6xl">{headline}</h1>
+          <p className="mx-auto mt-6 max-w-md text-lg text-muted">
+            4 canchas, turnos de 1:30 y 2 hs desde las 8 de la mañana. Si te faltan jugadores, armamos el partido con
+            gente de tu categoría.
+          </p>
+          <div className="flex justify-center">{ctas}</div>
+        </div>
+
+        <div className="relative mx-auto mt-16 max-w-4xl px-5">
+          <div className="rounded-xl bg-ink-soft p-10">
+            <CourtGraphic className="mx-auto h-56 w-full max-w-2xl text-teal/20" />
+          </div>
+          <div className="mx-auto mt-6 flex max-w-2xl flex-wrap justify-center gap-3">
+            {stats.map((s) => (
+              <span key={s.label} className="inline-flex items-center gap-2 rounded-full bg-ink-soft px-4 py-2.5 text-sm text-bone shadow-sm">
+                <span className={`font-display font-bold ${s.accent}`}>{s.value}</span> {s.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // Onix: premium oscuro — cinta de números grandes, sin decoración, hairlines finas.
+  if (style === 'onix') {
+    return (
+      <section id="top" className="pb-20 pt-32 sm:pt-40">
+        <div className="mx-auto max-w-4xl px-5 text-center">
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-teal">Turnos hasta las 00 hs</span>
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[1.02] tracking-tight text-bone sm:text-7xl">{headline}</h1>
+          <p className="mx-auto mt-6 max-w-md text-lg text-muted">
+            4 canchas, turnos de 1:30 y 2 hs desde las 8 de la mañana. Si te faltan jugadores, armamos el partido con
+            gente de tu categoría.
+          </p>
+          <div className="flex justify-center">{ctas}</div>
+        </div>
+
+        <div className="mx-auto mt-16 flex max-w-3xl divide-x divide-ink-line border-y border-ink-line px-5">
+          {stats.map((s) => (
+            <div key={s.label} className="flex-1 px-4 py-6 text-center">
+              <div className={`font-display text-3xl font-bold tabular-nums ${s.accent}`}>{s.value}</div>
+              <div className="mt-1.5 text-[11px] uppercase tracking-[0.15em] text-muted">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   // Original.
   return (
     <section id="top" className="bg-grain court-lines relative overflow-hidden pb-20 pt-32 sm:pt-40">

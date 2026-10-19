@@ -78,20 +78,61 @@ export default function CategoryLadder() {
         </div>
       )}
 
-      {(style === 'prime' || style === 'aqua' || style === 'onix') && (
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Prime: carrusel horizontal bold, mismo lenguaje que las canchas */}
+      {style === 'prime' && (
+        <div className="mt-12 -mx-5 flex snap-x gap-4 overflow-x-auto px-5 pb-2">
           {REVERSED.map((c) => (
-            <div key={c.id} className="rounded-lg border border-ink-line bg-ink-soft/40 p-5">
-              <span
-                className="grid h-11 w-11 place-items-center rounded-full font-display text-sm font-extrabold"
-                style={{ background: `color-mix(in srgb, ${c.color} 15%, transparent)`, color: c.color }}
-              >
+            <div key={c.id} className="w-52 shrink-0 snap-start rounded-xl bg-ink-soft/60 p-5" style={{ borderTop: `3px solid ${c.color}` }}>
+              <span className="font-display text-3xl font-extrabold" style={{ color: c.color }}>
                 {c.label}
               </span>
               <p className="mt-3 font-display text-base font-bold text-bone">{c.name}</p>
               <p className="mt-1 text-sm text-muted">{c.desc}</p>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Aqua Pro: flujo centrado de pills grandes, una debajo de otra, muy suave */}
+      {style === 'aqua' && (
+        <div className="mx-auto mt-14 max-w-xl space-y-3">
+          {REVERSED.map((c) => (
+            <div key={c.id} className="flex items-center gap-4 rounded-full bg-ink-soft py-2.5 pl-2.5 pr-6">
+              <span
+                className="grid h-11 w-11 shrink-0 place-items-center rounded-full font-display text-sm font-extrabold"
+                style={{ background: `color-mix(in srgb, ${c.color} 18%, transparent)`, color: c.color }}
+              >
+                {c.label}
+              </span>
+              <span className="font-display text-base font-bold text-bone">{c.name}</span>
+              <span className="ml-auto text-sm text-muted">{c.desc}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Onix: escalera de datos — barras horizontales que crecen con el nivel, muy premium/editorial */}
+      {style === 'onix' && (
+        <div className="mt-14 max-w-2xl space-y-3">
+          {REVERSED.map((c, i) => {
+            const rank = REVERSED.length - i
+            const widthPct = 35 + (rank / REVERSED.length) * 65
+            return (
+              <div key={c.id} className="flex items-center gap-4">
+                <span className="w-16 shrink-0 font-display text-sm font-bold" style={{ color: c.color }}>
+                  {c.name}
+                </span>
+                <div className="h-8 flex-1 rounded-sm bg-ink-soft">
+                  <div
+                    className="flex h-full items-center rounded-sm px-3 text-xs font-semibold text-inkfix"
+                    style={{ width: `${widthPct}%`, background: c.color }}
+                  >
+                    {c.desc}
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       )}
 

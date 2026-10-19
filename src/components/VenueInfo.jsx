@@ -73,15 +73,48 @@ export default function VenueInfo() {
         </div>
       )}
 
-      {(style === 'prime' || style === 'aqua' || style === 'onix') && (
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Prime: carrusel horizontal con scroll-snap, tarjetas bold con número watermark */}
+      {style === 'prime' && (
+        <div className="mt-12 -mx-5 flex snap-x gap-5 overflow-x-auto px-5 pb-2">
           {courts.map((c, i) => (
-            <div key={c.id} className="rounded-lg border border-ink-line bg-ink-soft/40 p-6">
-              <span className="font-display text-sm font-extrabold tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
-              <h3 className="mt-3 font-display text-lg font-bold text-bone">{c.name}</h3>
-              <p className="mt-1 text-sm text-muted">{c.tag}</p>
-              <span className={`mt-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${c.indoor ? 'bg-teal/10 text-teal' : 'bg-lime/10 text-lime'}`}>
-                {c.indoor ? <MoonStar size={12} /> : <SunMedium size={12} />}
+            <div key={c.id} className="relative w-64 shrink-0 snap-start overflow-hidden rounded-xl bg-ink-soft/60 p-6">
+              <span className="absolute -right-3 -top-5 font-display text-8xl font-extrabold text-ink-line/40">{i + 1}</span>
+              <span className={`relative grid h-10 w-10 place-items-center rounded-full ${c.indoor ? 'bg-teal/10 text-teal' : 'bg-lime/10 text-lime'}`}>
+                {c.indoor ? <MoonStar size={16} /> : <SunMedium size={16} />}
+              </span>
+              <h3 className="relative mt-8 font-display text-lg font-bold text-bone">{c.name}</h3>
+              <p className="relative mt-1 text-sm text-muted">{c.tag}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Aqua Pro: lista de chips suaves en fila, sin bordes duros */}
+      {style === 'aqua' && (
+        <div className="mx-auto mt-12 flex max-w-3xl flex-wrap justify-center gap-3">
+          {courts.map((c) => (
+            <div key={c.id} className="flex items-center gap-3 rounded-full bg-ink-soft px-5 py-3">
+              <span className={`grid h-8 w-8 place-items-center rounded-full ${c.indoor ? 'bg-teal/15 text-teal' : 'bg-lime/15 text-lime'}`}>
+                {c.indoor ? <MoonStar size={14} /> : <SunMedium size={14} />}
+              </span>
+              <div className="text-left">
+                <p className="text-sm font-bold text-bone">{c.name}</p>
+                <p className="text-xs text-muted">{c.tag}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Onix: ficha tipo tabla, una fila por cancha, muy densa */}
+      {style === 'onix' && (
+        <div className="mt-12 divide-y divide-ink-line border-y border-ink-line">
+          {courts.map((c, i) => (
+            <div key={c.id} className="flex items-center gap-5 py-4">
+              <span className="w-6 font-display text-xs font-bold tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
+              <span className="flex-1 font-display text-base font-bold text-bone">{c.name}</span>
+              <span className="hidden text-sm text-muted sm:block">{c.tag}</span>
+              <span className={`text-xs font-semibold uppercase tracking-wide ${c.indoor ? 'text-teal' : 'text-lime'}`}>
                 {c.indoor ? 'Techada' : 'Descubierta'}
               </span>
             </div>

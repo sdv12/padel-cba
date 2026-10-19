@@ -62,28 +62,68 @@ export default function Features() {
         </div>
       )}
 
-      {(style === 'prime' || style === 'aqua' || style === 'onix') && (
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Prime: bento asimétrico — la tarjeta destacada ocupa el doble, como un panel de producto */}
+      {style === 'prime' && (
+        <div className="mt-14 grid auto-rows-[180px] gap-5 sm:grid-cols-4">
           {FEATURES.map((f, i) => {
             const Icon = f.icon
-            const highlighted = i === 1
+            const big = i === 1
             return (
               <div
                 key={f.title}
-                className={`rounded-lg p-6 ${highlighted ? 'bg-lime text-inkfix' : 'border border-ink-line bg-ink-soft/40 text-bone'}`}
+                className={`flex flex-col justify-between rounded-xl p-6 ${
+                  big ? 'sm:col-span-2 sm:row-span-2 bg-lime text-inkfix' : 'bg-ink-soft/60 text-bone'
+                }`}
               >
-                <span
-                  className={`grid h-11 w-11 place-items-center rounded-full ${
-                    highlighted ? 'bg-inkfix/15 text-inkfix' : `bg-ink-softer ${f.accent}`
-                  }`}
-                >
+                <span className={`grid h-11 w-11 place-items-center rounded-full ${big ? 'bg-inkfix/15 text-inkfix' : `bg-ink-softer ${f.accent}`}`}>
                   <Icon size={19} />
                 </span>
-                <h3 className={`mt-4 font-display text-lg font-bold ${highlighted ? 'text-inkfix' : 'text-bone'}`}>{f.title}</h3>
-                <p className={`mt-1.5 text-sm ${highlighted ? 'text-inkfix/80' : 'text-muted'}`}>{f.desc}</p>
+                <div>
+                  <h3 className={`font-display font-bold ${big ? 'text-2xl text-inkfix' : 'text-base text-bone'}`}>{f.title}</h3>
+                  <p className={`mt-1.5 text-sm ${big ? 'text-inkfix/80' : 'text-muted'} ${big ? '' : 'line-clamp-2'}`}>{f.desc}</p>
+                </div>
               </div>
             )
           })}
+        </div>
+      )}
+
+      {/* Aqua Pro: filas alternadas, centradas, con badge circular grande — ritmo de showcase, no grilla */}
+      {style === 'aqua' && (
+        <div className="mx-auto mt-16 max-w-2xl space-y-10">
+          {FEATURES.map((f, i) => {
+            const Icon = f.icon
+            const reverse = i % 2 === 1
+            return (
+              <div key={f.title} className={`flex items-center gap-6 ${reverse ? 'flex-row-reverse text-right' : ''}`}>
+                <span className={`grid h-16 w-16 shrink-0 place-items-center rounded-full bg-ink-soft ${f.accent}`}>
+                  <Icon size={24} />
+                </span>
+                <div>
+                  <h3 className="font-display text-xl font-bold text-bone">{f.title}</h3>
+                  <p className="mt-1 text-sm text-muted">{f.desc}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Onix: ficha técnica — sin íconos, números grandes y hairlines, dos columnas densas */}
+      {style === 'onix' && (
+        <div className="mt-14 grid border-t border-ink-line sm:grid-cols-2">
+          {FEATURES.map((f, i) => (
+            <div
+              key={f.title}
+              className={`flex items-baseline gap-5 border-b border-ink-line py-6 pr-6 ${i % 2 === 0 ? 'sm:border-r' : 'sm:pl-6'}`}
+            >
+              <span className="font-display text-sm font-bold tabular-nums text-teal">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 className="font-display text-lg font-bold text-bone">{f.title}</h3>
+                <p className="mt-1 text-sm text-muted">{f.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

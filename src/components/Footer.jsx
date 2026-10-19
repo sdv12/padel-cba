@@ -20,25 +20,70 @@ export default function Footer() {
   if (isPremium) {
     return (
       <footer className="relative border-t border-ink-line bg-ink-soft/60">
-        <div className="mx-auto max-w-5xl px-5 py-20 text-center">
-          <h2 className="mx-auto max-w-xl font-display text-3xl font-extrabold text-bone sm:text-4xl">
-            ¿Listo para tu próximo turno?
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-muted">Reservá online o escribinos si te falta gente para completar el partido.</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a href="#reservas" className="btn-cut bg-lime px-7 py-3.5 font-bold text-inkfix transition-transform hover:scale-105">
-              Reservar ahora
-            </a>
-            <a
-              href={waLink('Hola! Tengo una consulta sobre las canchas.')}
-              target="_blank"
-              rel="noreferrer"
-              className="btn-cut inline-flex items-center gap-2 border border-ink-line px-7 py-3.5 font-semibold text-bone transition-colors hover:border-teal hover:text-teal"
-            >
-              <MessageCircle size={16} /> WhatsApp
-            </a>
+        {style === 'prime' && (
+          <div className="mx-auto max-w-5xl px-5 py-20 text-center">
+            <h2 className="mx-auto max-w-xl font-display text-3xl font-extrabold text-bone sm:text-4xl">
+              ¿Listo para tu próximo turno?
+            </h2>
+            <p className="mx-auto mt-3 max-w-md text-muted">Reservá online o escribinos si te falta gente para completar el partido.</p>
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <a href="#reservas" className="btn-cut bg-lime px-7 py-3.5 font-bold text-inkfix transition-transform hover:scale-105">
+                Reservar ahora
+              </a>
+              <a
+                href={waLink('Hola! Tengo una consulta sobre las canchas.')}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-cut inline-flex items-center gap-2 border border-ink-line px-7 py-3.5 font-semibold text-bone transition-colors hover:border-teal hover:text-teal"
+              >
+                <MessageCircle size={16} /> WhatsApp
+              </a>
+            </div>
           </div>
-        </div>
+        )}
+
+        {style === 'aqua' && (
+          <div className="mx-auto max-w-3xl px-5 py-20">
+            <div className="rounded-xl bg-ink-soft p-10 text-center">
+              <h2 className="mx-auto max-w-sm font-display text-2xl font-extrabold text-bone sm:text-3xl">
+                ¿Listo para tu próximo turno?
+              </h2>
+              <p className="mx-auto mt-3 max-w-sm text-sm text-muted">Reservá online o escribinos si te falta gente para completar el partido.</p>
+              <div className="mt-7 flex flex-wrap justify-center gap-3">
+                <a href="#reservas" className="btn-cut bg-lime px-6 py-3 text-sm font-bold text-inkfix transition-transform hover:scale-105">
+                  Reservar ahora
+                </a>
+                <a
+                  href={waLink('Hola! Tengo una consulta sobre las canchas.')}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-cut inline-flex items-center gap-2 bg-ink px-6 py-3 text-sm font-semibold text-bone transition-colors hover:text-teal"
+                >
+                  <MessageCircle size={14} /> WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {style === 'onix' && (
+          <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-6 px-5 py-14 sm:flex-row">
+            <h2 className="font-display text-2xl font-bold text-bone">¿Listo para tu próximo turno?</h2>
+            <div className="flex gap-3">
+              <a href="#reservas" className="btn-cut bg-lime px-6 py-3 text-sm font-bold text-inkfix transition-transform hover:scale-105">
+                Reservar ahora
+              </a>
+              <a
+                href={waLink('Hola! Tengo una consulta sobre las canchas.')}
+                target="_blank"
+                rel="noreferrer"
+                className="btn-cut border border-ink-line px-6 py-3 text-sm font-semibold text-bone transition-colors hover:border-teal hover:text-teal"
+              >
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        )}
 
         <div className="border-t border-ink-line px-5 py-8 pb-24">
           <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 text-xs text-muted sm:flex-row sm:justify-between">

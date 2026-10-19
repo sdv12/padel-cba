@@ -10,7 +10,7 @@ export const SETUP_PLANS = [
   {
     id: 'esencial',
     name: 'Esencial',
-    price: 400,
+    price: 300,
     featured: false,
     features: ['Despliegue del sistema base', 'Tu logo y colores', 'Subdominio propio (tuclub.padelcba.com)', 'Carga de datos por cuenta del cliente'],
     cta: 'Empezar con Esencial',

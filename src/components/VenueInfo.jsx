@@ -2,6 +2,7 @@ import { Car, IceCreamCone, MoonStar, ShowerHead, Sparkles, SunMedium, Waves } f
 import { useBooking } from '../context/BookingContext'
 import { useTheme } from '../context/ThemeContext'
 import SectionKicker from './ui/SectionKicker'
+import CourtGraphic from './ui/CourtGraphic'
 
 const AMENITIES = [
   { icon: ShowerHead, label: 'Vestuarios con duchas' },
@@ -73,17 +74,23 @@ export default function VenueInfo() {
         </div>
       )}
 
-      {/* Prime: carrusel horizontal con scroll-snap, tarjetas bold con número watermark */}
+      {/* Prime: "mazo" de fichas tipo foto, inclinadas y superpuestas — como un proyecto destacado de producto */}
       {style === 'prime' && (
-        <div className="mt-12 -mx-5 flex snap-x gap-5 overflow-x-auto px-5 pb-2">
+        <div className="mt-14 flex flex-wrap justify-center gap-x-4 gap-y-8 sm:-space-x-6 sm:gap-y-0">
           {courts.map((c, i) => (
-            <div key={c.id} className="relative w-64 shrink-0 snap-start overflow-hidden rounded-xl bg-ink-soft/60 p-6">
-              <span className="absolute -right-3 -top-5 font-display text-8xl font-extrabold text-ink-line/40">{i + 1}</span>
-              <span className={`relative grid h-10 w-10 place-items-center rounded-full ${c.indoor ? 'bg-teal/10 text-teal' : 'bg-lime/10 text-lime'}`}>
-                {c.indoor ? <MoonStar size={16} /> : <SunMedium size={16} />}
-              </span>
-              <h3 className="relative mt-8 font-display text-lg font-bold text-bone">{c.name}</h3>
-              <p className="relative mt-1 text-sm text-muted">{c.tag}</p>
+            <div
+              key={c.id}
+              className={`w-48 shrink-0 ${i % 2 === 0 ? '-rotate-3' : 'rotate-3'} transition-transform duration-300 hover:z-10 hover:rotate-0`}
+              style={{ zIndex: i }}
+            >
+              <div className="relative h-56 overflow-hidden rounded-2xl bg-gradient-to-br from-lime/25 via-ink-soft to-ink-soft shadow-xl">
+                <CourtGraphic className="absolute inset-0 h-full w-full p-6 text-lime/25" />
+                <span className="absolute left-3 top-3 rounded-full bg-ink/80 px-2.5 py-1 text-[10px] font-bold text-lime backdrop-blur">
+                  {c.indoor ? 'Techada' : 'Al aire libre'}
+                </span>
+              </div>
+              <p className="mt-3 text-center font-display text-base font-bold text-bone">{c.name}</p>
+              <p className="text-center text-xs text-muted">{c.tag}</p>
             </div>
           ))}
         </div>

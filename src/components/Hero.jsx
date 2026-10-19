@@ -195,6 +195,11 @@ export default function Hero() {
           <div className="relative">
             <div className="rounded-xl bg-ink-soft p-8">
               <CourtGraphic className="h-64 w-full text-lime/20" />
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+                <span className="rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-bone">Reservas</span>
+                <span className="rounded-full bg-lime px-3.5 py-1.5 text-xs font-semibold text-inkfix">Partidos abiertos</span>
+                <span className="rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-bone">Cantina</span>
+              </div>
             </div>
             <div className="absolute -left-6 -top-6 rounded-xl border border-ink-line bg-ink px-5 py-4 shadow-xl">
               <div className="font-display text-2xl font-extrabold tabular-nums text-lime">{freeCount}</div>

@@ -1,9 +1,12 @@
 import { useMemo } from 'react'
-import { ArrowDownRight, Zap } from 'lucide-react'
+import { ArrowDownRight, Bell, Search, Zap } from 'lucide-react'
 import { useBooking } from '../context/BookingContext'
 import { useTheme } from '../context/ThemeContext'
-import { toDateKey, minToLabel } from '../utils/time'
+import { toDateKey, minToLabel, nextDays, dayLabel } from '../utils/time'
 import CourtGraphic from './ui/CourtGraphic'
+import CategoryBadge from './ui/CategoryBadge'
+
+const MINI_DAYS = nextDays(5)
 
 export default function Hero() {
   const { courts, slotStates, openMatches } = useBooking()
@@ -24,7 +27,9 @@ export default function Hero() {
     return { freeCount: count, nextFree: next }
   }, [courts, slotStates, todayKey])
 
-  const openToday = openMatches(todayKey).length
+  const todayMatches = openMatches(todayKey)
+  const openToday = todayMatches.length
+  const courtName = (id) => courts.find((c) => c.id === id)?.name ?? id
   const stats = [
     { value: freeCount, label: 'turnos libres hoy', accent: 'text-lime' },
     { value: nextFree !== null ? minToLabel(nextFree) : '—', label: 'próximo horario libre', accent: 'text-teal' },
@@ -168,8 +173,76 @@ export default function Hero() {
   // Prime: SaaS bold — panel flotante con tarjetas de stats superpuestas, botones pill.
   if (style === 'prime') {
     return (
-      <section id="top" className="relative overflow-hidden pb-20 pt-32 sm:pt-40">
-        <div className="relative mx-auto grid max-w-6xl gap-12 px-5 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <section id="top" className="relative overflow-hidden pb-24 pt-24 sm:pb-20 sm:pt-40">
+        {/* Mobile: app de reservas — header con saludo, bloque de búsqueda y agenda de hoy */}
+        <div className="px-5 sm:hidden">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs text-muted">Hola 👋</p>
+              <p className="font-display text-lg font-bold text-bone">¿Jugamos hoy?</p>
+            </div>
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-ink-soft text-bone">
+              <Bell size={17} />
+            </span>
+          </div>
+
+          <a href="#reservas" className="mt-5 flex items-center gap-3 rounded-2xl bg-ink-soft px-4 py-3.5 text-sm text-muted">
+            <Search size={16} />
+            Buscar cancha, día u horario…
+          </a>
+
+          <div className="mt-5 flex gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {MINI_DAYS.map((d, i) => {
+              const label = dayLabel(d, i)
+              return (
+                <div
+                  key={label.top}
+                  className={`flex shrink-0 flex-col items-center rounded-2xl px-4 py-2.5 ${i === 0 ? 'bg-lime text-inkfix' : 'bg-ink-soft text-bone'}`}
+                >
+                  <span className="text-[10px] font-semibold uppercase opacity-80">{label.top}</span>
+                  <span className="font-display text-base font-bold">{label.bottom}</span>
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl bg-lime p-4 text-inkfix">
+              <div className="font-display text-2xl font-extrabold tabular-nums">{freeCount}</div>
+              <div className="text-[11px] font-semibold uppercase tracking-wide">turnos libres</div>
+            </div>
+            <div className="rounded-2xl bg-ink-soft p-4 text-bone">
+              <div className="font-display text-2xl font-extrabold tabular-nums text-teal">{openToday}</div>
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-muted">partidos abiertos</div>
+            </div>
+          </div>
+
+          <p className="mt-6 text-xs font-bold uppercase tracking-wide text-muted">Agenda de hoy</p>
+          <div className="mt-3 space-y-2.5">
+            {todayMatches.slice(0, 3).map((m) => (
+              <div key={m.id} className="flex items-center gap-3 rounded-2xl bg-ink-soft p-3.5">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-ink font-display text-xs font-bold text-lime">
+                  {minToLabel(m.start)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-bold text-bone">{courtName(m.courtId)}</p>
+                  <p className="text-xs text-muted">Faltan {m.spotsNeeded - m.joined.length} jugadores</p>
+                </div>
+                <CategoryBadge id={m.category} size="sm" />
+              </div>
+            ))}
+            {todayMatches.length === 0 && (
+              <p className="rounded-2xl bg-ink-soft p-4 text-center text-sm text-muted">Sin partidos abiertos por ahora.</p>
+            )}
+          </div>
+
+          <a href="#reservas" className="btn-cut mt-6 flex items-center justify-center gap-2 bg-lime py-4 font-bold text-inkfix">
+            Reservar ahora
+            <ArrowDownRight size={18} />
+          </a>
+        </div>
+
+        <div className="relative mx-auto hidden max-w-6xl gap-12 px-5 sm:grid lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full bg-lime px-4 py-1.5 text-xs font-bold text-inkfix">
               Turnos hasta las 00 hs
@@ -228,8 +301,60 @@ export default function Hero() {
   // Aqua Pro: editorial bold — titular gigante a la izquierda, collage de fichas superpuestas a la derecha.
   if (style === 'aqua') {
     return (
-      <section id="top" className="overflow-hidden pb-20 pt-32 sm:pt-40">
-        <div className="mx-auto grid max-w-6xl gap-16 px-5 lg:grid-cols-[1fr_0.85fr] lg:items-center">
+      <section id="top" className="overflow-hidden pb-24 pt-24 sm:pb-20 sm:pt-40">
+        {/* Mobile: app de productividad — saludo, tarjetas de "espacios de trabajo" suaves */}
+        <div className="px-5 sm:hidden">
+          <div className="flex items-center gap-3">
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-lime/20 font-display text-sm font-bold text-lime">P</span>
+            <div>
+              <p className="text-xs text-muted">Buen día 👋</p>
+              <p className="font-display text-base font-bold text-bone">Reservá tu cancha</p>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <a href="#reservas" className="rounded-[1.5rem] bg-ink-soft p-4">
+              <p className="text-[11px] font-bold uppercase tracking-wide text-teal">Reservas</p>
+              <p className="mt-3 font-display text-2xl font-extrabold tabular-nums text-bone">{freeCount}</p>
+              <p className="text-xs text-muted">turnos libres hoy</p>
+            </a>
+            <a href="#abiertos" className="rounded-[1.5rem] bg-ink-soft p-4">
+              <p className="text-[11px] font-bold uppercase tracking-wide text-lime">Comunidad</p>
+              <p className="mt-3 font-display text-2xl font-extrabold tabular-nums text-bone">{openToday}</p>
+              <p className="text-xs text-muted">partidos abiertos</p>
+            </a>
+          </div>
+
+          <p className="mt-6 text-xs font-bold uppercase tracking-wide text-muted">Tu agenda de hoy</p>
+          <div className="mt-3 space-y-2.5">
+            {todayMatches.slice(0, 3).map((m) => (
+              <div key={m.id} className="flex items-center gap-3 rounded-2xl bg-ink-soft p-3.5">
+                <span className="h-9 w-1.5 shrink-0 rounded-full bg-lime" />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-bold text-bone">
+                    {minToLabel(m.start)} · {courtName(m.courtId)}
+                  </p>
+                  <p className="text-xs text-muted">Faltan {m.spotsNeeded - m.joined.length} jugadores</p>
+                </div>
+                <CategoryBadge id={m.category} size="sm" />
+              </div>
+            ))}
+            {todayMatches.length === 0 && (
+              <p className="rounded-2xl bg-ink-soft p-4 text-center text-sm text-muted">Todavía no hay partidos abiertos hoy.</p>
+            )}
+          </div>
+
+          <div className="mt-6 flex gap-3">
+            <a href="#reservas" className="btn-cut flex-1 bg-lime py-3.5 text-center text-sm font-bold text-inkfix">
+              Reservar
+            </a>
+            <a href="#abiertos" className="btn-cut flex-1 bg-ink-soft py-3.5 text-center text-sm font-bold text-bone">
+              Ver partidos
+            </a>
+          </div>
+        </div>
+
+        <div className="mx-auto hidden max-w-6xl gap-16 px-5 sm:grid lg:grid-cols-[1fr_0.85fr] lg:items-center">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-ink-line px-4 py-1.5 text-xs font-semibold text-teal">
               Turnos hasta las 00 hs
@@ -266,8 +391,68 @@ export default function Hero() {
   // Onix: panel oscuro a pantalla completa, titular superpuesto y badge flotante — premium, estilo app.
   if (style === 'onix') {
     return (
-      <section id="top" className="px-5 pb-20 pt-32 sm:pt-40">
-        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-ink-soft px-6 py-16 sm:px-14 sm:py-24">
+      <section id="top" className="px-5 pb-24 pt-24 sm:pb-20 sm:pt-40">
+        {/* Mobile: app fintech — balance destacado, tira de días y lista de movimientos (partidos de hoy) */}
+        <div className="sm:hidden">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-muted">Hoy</p>
+              <p className="font-display text-sm font-bold text-bone">Reservá tu cancha</p>
+            </div>
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-ink-soft text-bone">
+              <Bell size={16} />
+            </span>
+          </div>
+
+          <div className="mt-5 rounded-[1.75rem] bg-ink-soft p-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">Turnos disponibles</p>
+            <p className="mt-2 font-display text-5xl font-extrabold tabular-nums text-lime">{freeCount}</p>
+            <div className="mt-5 flex gap-4 border-t border-ink-line pt-4 text-xs">
+              <span className="text-muted">
+                Próximo libre <span className="font-bold text-teal">{nextFree !== null ? minToLabel(nextFree) : '—'}</span>
+              </span>
+              <span className="text-muted">
+                Partidos <span className="font-bold text-bone">{openToday}</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-5 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {MINI_DAYS.map((d, i) => {
+              const label = dayLabel(d, i)
+              return (
+                <div
+                  key={label.top}
+                  className={`flex shrink-0 flex-col items-center rounded-xl border px-4 py-2 ${
+                    i === 0 ? 'border-lime bg-lime/10 text-lime' : 'border-ink-line text-muted'
+                  }`}
+                >
+                  <span className="text-[10px] font-semibold uppercase">{label.top}</span>
+                  <span className="font-display text-sm font-bold">{label.bottom}</span>
+                </div>
+              )
+            })}
+          </div>
+
+          <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-muted">Movimientos de hoy</p>
+          <div className="mt-3 divide-y divide-ink-line border-y border-ink-line">
+            {todayMatches.slice(0, 4).map((m) => (
+              <div key={m.id} className="flex items-center gap-3 py-3">
+                <span className="w-12 shrink-0 font-display text-xs font-bold tabular-nums text-muted">{minToLabel(m.start)}</span>
+                <span className="flex-1 truncate text-sm font-semibold text-bone">{courtName(m.courtId)}</span>
+                <CategoryBadge id={m.category} size="sm" />
+              </div>
+            ))}
+            {todayMatches.length === 0 && <p className="py-4 text-center text-sm text-muted">Sin partidos abiertos por ahora.</p>}
+          </div>
+
+          <a href="#reservas" className="btn-cut mt-6 flex items-center justify-center gap-2 bg-lime py-4 font-bold text-inkfix">
+            Reservar ahora
+            <ArrowDownRight size={18} />
+          </a>
+        </div>
+
+        <div className="relative mx-auto hidden max-w-6xl overflow-hidden rounded-[2rem] bg-ink-soft px-6 py-16 sm:block sm:px-14 sm:py-24">
           <CourtGraphic className="pointer-events-none absolute inset-0 h-full w-full text-lime/10" />
           <div className="relative max-w-xl">
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-lime">Turnos hasta las 00 hs</span>

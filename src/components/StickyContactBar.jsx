@@ -1,8 +1,40 @@
-import { ArrowRight, MessageCircle } from 'lucide-react'
+import { ArrowRight, CalendarCheck, Home, MessageCircle, Plus, Users2 } from 'lucide-react'
 import { waLink } from '../data/venue'
+import { useTheme } from '../context/ThemeContext'
+
+const TABS = [
+  { href: '#top', icon: Home, label: 'Inicio' },
+  { href: '#abiertos', icon: Users2, label: 'Partidos' },
+  { href: '#complejo', icon: CalendarCheck, label: 'Complejo' },
+]
 
 // Cinta fija al pie, siempre visible mientras se navega: las dos acciones que más importan.
 export default function StickyContactBar() {
+  const { style } = useTheme()
+  const isPremium = style === 'prime' || style === 'aqua' || style === 'onix'
+
+  if (isPremium) {
+    return (
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-ink-line bg-ink/95 backdrop-blur sm:hidden">
+        <div className="relative flex items-center justify-around px-2 py-2">
+          {TABS.slice(0, 2).map((t) => (
+            <TabLink key={t.href} {...t} />
+          ))}
+          <a
+            href="#reservas"
+            className="-mt-8 grid h-14 w-14 shrink-0 place-items-center rounded-full bg-lime text-inkfix shadow-xl transition-transform hover:scale-105"
+            aria-label="Reservar ahora"
+          >
+            <Plus size={24} />
+          </a>
+          {TABS.slice(2).map((t) => (
+            <TabLink key={t.href} {...t} />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-ink-line bg-ink/95 px-4 py-3 backdrop-blur sm:px-5">
       <div className="mx-auto flex max-w-6xl items-center gap-3">
@@ -25,5 +57,14 @@ export default function StickyContactBar() {
         </div>
       </div>
     </div>
+  )
+}
+
+function TabLink({ href, icon: Icon, label }) {
+  return (
+    <a href={href} className="flex flex-1 flex-col items-center gap-1 py-1 text-[10px] font-semibold text-muted transition-colors hover:text-bone">
+      <Icon size={19} />
+      {label}
+    </a>
   )
 }

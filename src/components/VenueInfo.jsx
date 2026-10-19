@@ -96,32 +96,50 @@ export default function VenueInfo() {
         </div>
       )}
 
-      {/* Aqua Pro: lista de chips suaves en fila, sin bordes duros */}
+      {/* Aqua Pro: spotlight asimétrico — una cancha destacada grande (blob suave) + el resto en fila liviana al costado */}
       {style === 'aqua' && (
-        <div className="mx-auto mt-12 flex max-w-3xl flex-wrap justify-center gap-3">
-          {courts.map((c) => (
-            <div key={c.id} className="flex items-center gap-3 rounded-full bg-ink-soft px-5 py-3">
-              <span className={`grid h-8 w-8 place-items-center rounded-full ${c.indoor ? 'bg-teal/15 text-teal' : 'bg-lime/15 text-lime'}`}>
-                {c.indoor ? <MoonStar size={14} /> : <SunMedium size={14} />}
+        <div className="mt-12 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
+          {courts[0] && (
+            <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-lime/15 via-ink-soft to-teal/10 p-8">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-3 py-1 text-xs font-semibold text-lime">
+                {courts[0].indoor ? <MoonStar size={12} /> : <SunMedium size={12} />}
+                {courts[0].indoor ? 'Techada' : 'Al aire libre'}
               </span>
-              <div className="text-left">
-                <p className="text-sm font-bold text-bone">{c.name}</p>
-                <p className="text-xs text-muted">{c.tag}</p>
-              </div>
+              <h3 className="mt-5 font-display text-3xl font-extrabold text-bone">{courts[0].name}</h3>
+              <p className="mt-2 max-w-xs text-sm text-muted">{courts[0].tag}</p>
+              <CourtGraphic className="mx-auto mt-6 h-40 w-full max-w-xs text-teal/20" />
             </div>
-          ))}
+          )}
+          <div className="space-y-3">
+            {courts.slice(1).map((c) => (
+              <div key={c.id} className="flex items-center gap-4 rounded-2xl bg-ink-soft p-4">
+                <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${c.indoor ? 'bg-teal/15 text-teal' : 'bg-lime/15 text-lime'}`}>
+                  {c.indoor ? <MoonStar size={16} /> : <SunMedium size={16} />}
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-bone">{c.name}</p>
+                  <p className="text-xs text-muted">{c.tag}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Onix: ficha tipo tabla, una fila por cancha, muy densa */}
+      {/* Onix: ficha técnica con barra de ocupación — mismo lenguaje de datos que la escalera de categorías */}
       {style === 'onix' && (
-        <div className="mt-12 divide-y divide-ink-line border-y border-ink-line">
+        <div className="mt-12 space-y-4">
           {courts.map((c, i) => (
-            <div key={c.id} className="flex items-center gap-5 py-4">
-              <span className="w-6 font-display text-xs font-bold tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
-              <span className="flex-1 font-display text-base font-bold text-bone">{c.name}</span>
-              <span className="hidden text-sm text-muted sm:block">{c.tag}</span>
-              <span className={`text-xs font-semibold uppercase tracking-wide ${c.indoor ? 'text-teal' : 'text-lime'}`}>
+            <div key={c.id} className="flex items-center gap-5 border-b border-ink-line pb-4">
+              <span className="w-6 shrink-0 font-display text-xs font-bold tabular-nums text-muted">{String(i + 1).padStart(2, '0')}</span>
+              <div className="w-40 shrink-0">
+                <p className="font-display text-base font-bold text-bone">{c.name}</p>
+                <p className="text-xs text-muted">{c.tag}</p>
+              </div>
+              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-ink-soft">
+                <div className={`h-full rounded-full ${c.indoor ? 'w-full bg-teal' : 'w-2/3 bg-lime'}`} />
+              </div>
+              <span className={`w-24 shrink-0 text-right text-xs font-semibold uppercase tracking-wide ${c.indoor ? 'text-teal' : 'text-lime'}`}>
                 {c.indoor ? 'Techada' : 'Descubierta'}
               </span>
             </div>

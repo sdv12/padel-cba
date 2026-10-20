@@ -137,12 +137,16 @@ function SetupCard({ plan: p, monthly = false, compact = false }) {
   const { addItem } = useCart()
   const features = compact ? p.features.slice(0, MOBILE_FEATURES_LIMIT) : p.features
   const hiddenCount = p.features.length - features.length
+  // Marca Blanca es desarrollo a medida: aunque el interruptor global esté en "mensual",
+  // esta card se queda en pago único (se cotiza aparte, no tiene abono mensual estándar).
+  const effectiveMonthly = monthly && !p.excludesMonthly
 
   function handleAddToCart() {
     addItem({
       group: 'setup',
       label: p.name,
-      detail: monthly ? `${formatUsd(p.priceMonthly)}/mes, sin pago inicial` : `${formatUsd(p.price)}, pago único`,
+      detail: effectiveMonthly ? `${formatUsd(p.priceMonthly)}/mes, sin pago inicial` : `${formatUsd(p.price)}, pago único`,
+      excludesAddon: p.excludesAddon,
     })
   }
 
@@ -160,10 +164,12 @@ function SetupCard({ plan: p, monthly = false, compact = false }) {
       )}
       <h4 className="font-display text-xl font-bold text-bone">{p.name}</h4>
       <div className="mt-4 flex items-baseline gap-1">
-        <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(monthly ? p.priceMonthly : p.price)}</span>
-        {monthly && <span className="text-sm text-muted">/ mes</span>}
+        <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(effectiveMonthly ? p.priceMonthly : p.price)}</span>
+        {effectiveMonthly && <span className="text-sm text-muted">/ mes</span>}
       </div>
-      <p className="mt-0.5 text-xs text-muted">{monthly ? 'Abono mensual, sin pago inicial' : 'Pago único'}</p>
+      <p className="mt-0.5 text-xs text-muted">
+        {effectiveMonthly ? 'Abono mensual, sin pago inicial' : monthly ? 'Pago único — no tiene modalidad mensual' : 'Pago único'}
+      </p>
       <ul className="mt-6 flex-1 space-y-2.5">
         {features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-bone">
@@ -232,6 +238,13 @@ function ModalityComparison() {
                 <td className="py-2.5 pr-4 font-semibold text-bone">{p.name}</td>
                 <td className="py-2.5 pr-4 tabular-nums text-bone">{formatUsd(p.price)}</td>
                 {SETUP_MODALITY_MONTH_MARKS.map((m) => {
+                  if (p.excludesMonthly) {
+                    return (
+                      <td key={m} className="py-2.5 pr-4 text-muted">
+                        No disponible
+                      </td>
+                    )
+                  }
                   const total = p.priceMonthly * m
                   const pastBreakeven = total >= p.price
                   return (
@@ -246,10 +259,10 @@ function ModalityComparison() {
         </table>
       </div>
       <p className="mt-3 text-xs text-muted">
-        En lima: el mes desde el que la modalidad mensual ya pagó lo mismo o más que el pago único de ese plan (varía
-        por plan: Esencial y Llave en Mano empatan al mes 10, Marca Blanca al mes 6). Si pensás usar el sistema más
-        tiempo que eso, el pago único te conviene; si preferís no inmovilizar capital al arrancar, el mensual te lo
-        permite.
+        En lima: el mes desde el que la modalidad mensual ya pagó lo mismo o más que el pago único de ese plan (Esencial
+        y Llave en Mano empatan al mes 10). Si pensás usar el sistema más tiempo que eso, el pago único te conviene; si
+        preferís no inmovilizar capital al arrancar, el mensual te lo permite. Marca Blanca es desarrollo a medida, se
+        cotiza siempre como pago único.
       </p>
     </div>
   )
@@ -305,7 +318,8 @@ function ModelCard({ model: m }) {
 }
 
 function AddonCard({ addon: a }) {
-  const { addItem } = useCart()
+  const { addItem, addonBlockedBy } = useCart()
+  const blocker = addonBlockedBy()
 
   return (
     <div className="flex flex-col rounded-lg border border-ink-line bg-ink p-6">
@@ -318,6 +332,11 @@ function AddonCard({ addon: a }) {
         <p className="mt-1 text-xs text-muted">+ {formatUsd(a.monthly)}/mes de mantenimiento aparte</p>
       )}
       {a.note && <p className="mt-2 text-xs text-clay">{a.note}</p>}
+      {blocker && (
+        <p className="mt-2 text-xs font-semibold text-clay">
+          No disponible: ya tenés {blocker.label} en tu pedido (desarrollo personalizado, no admite este módulo).
+        </p>
+      )}
       <ul className="mt-6 flex-1 space-y-2.5">
         {a.features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-bone">
@@ -334,7 +353,8 @@ function AddonCard({ addon: a }) {
         </a>
         <button
           onClick={() => addItem({ group: 'addon', label: a.name, detail: `${formatUsd(a.price, { from: a.priceFrom })} + ${formatUsd(a.monthly)}/mes` })}
-          className="btn-cut grid w-12 shrink-0 place-items-center border border-ink-line text-bone transition-colors hover:border-teal hover:text-teal"
+          disabled={!!blocker}
+          className="btn-cut grid w-12 shrink-0 place-items-center border border-ink-line text-bone transition-colors hover:border-teal hover:text-teal disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-ink-line disabled:hover:text-bone"
           aria-label={`Agregar ${a.name} al pedido`}
         >
           <ShoppingCart size={16} />

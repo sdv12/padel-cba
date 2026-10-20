@@ -25,9 +25,23 @@ export function CartProvider({ children }) {
   }, [items])
 
   // Cada "group" (demo, setup, addon, management) es una elección única: agregar de nuevo
-  // dentro del mismo grupo reemplaza la elección anterior en vez de duplicarla.
+  // dentro del mismo grupo reemplaza la elección anterior en vez de duplicarla. Si el setup
+  // elegido excluye el addon (ej. Marca Blanca, desarrollo personalizado), se saca el addon
+  // del carrito en vez de dejar una combinación que no se puede vender así.
   function addItem(item) {
-    setItems((prev) => [...prev.filter((i) => i.group !== item.group), { ...item, id: `${item.group}-${Date.now()}` }])
+    setItems((prev) => {
+      let next = prev.filter((i) => i.group !== item.group)
+      if (item.group === 'setup' && item.excludesAddon) {
+        next = next.filter((i) => i.group !== 'addon')
+      }
+      return [...next, { ...item, id: `${item.group}-${Date.now()}` }]
+    })
+  }
+
+  // true si hay un setup en el carrito que no admite el addon (Marca Blanca). Lo consulta
+  // AddonCard antes de dejar agregar el módulo.
+  function addonBlockedBy() {
+    return items.find((i) => i.group === 'setup' && i.excludesAddon) ?? null
   }
 
   function removeItem(id) {
@@ -38,7 +52,7 @@ export function CartProvider({ children }) {
     setItems([])
   }
 
-  return <CartContext.Provider value={{ items, addItem, removeItem, clear }}>{children}</CartContext.Provider>
+  return <CartContext.Provider value={{ items, addItem, removeItem, clear, addonBlockedBy }}>{children}</CartContext.Provider>
 }
 
 export function useCart() {

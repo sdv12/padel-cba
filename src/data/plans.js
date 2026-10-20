@@ -56,11 +56,12 @@ export const SETUP_PLANS = [
     priceMonthly: 100,
     featured: false,
     excludesAddon: true,
+    excludesMonthly: true,
     features: ['Todo lo de Llave en Mano', 'Rediseño visual exclusivo de tu portada', 'Integración avanzada con bot de WhatsApp propio'],
     cta: 'Contactar',
     ctaStyle: 'ghost',
     customNote:
-      '¿Lo querés 100% a medida, fuera de nuestras paletas? Se charla — precio a convenir. Al ser un desarrollo personalizado, no admite sumar el Módulo de Caja y Cobranzas del Paso 2.',
+      '¿Lo querés 100% a medida, fuera de nuestras paletas? Se charla — precio a convenir. Al ser un desarrollo personalizado, no admite sumar el Módulo de Caja y Cobranzas del Paso 2, ni la modalidad de pago mensual (se cotiza aparte).',
   },
 ]
 

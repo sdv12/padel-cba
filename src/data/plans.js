@@ -4,13 +4,27 @@
 export const SETUP_DEPOSIT_NOTE =
   'Se abona una seña del 30% para arrancar con los gastos iniciales. El resto se paga cuando el sistema está entregado y funcionando.'
 
-// Paso 1 — sistema llave en mano, pago único de instalación. Estrategia Good/Better/Best:
-// la del medio es la que más conviene vender, por eso va destacada.
+// Modalidades de pago para el setup (paso 1). "Mensual" no tiene pago inicial: se financia el
+// mismo plan en 20 cuotas (priceMonthly = price/20), después de las cuales el setup ya está
+// pago — coherencia con el mismo mecanismo usado en Sala de Espera.
+export const SETUP_MODALITIES = [
+  { id: 'unico', name: 'Pago único', note: SETUP_DEPOSIT_NOTE },
+  {
+    id: 'mensual',
+    name: 'Pago mensual',
+    note: 'Sin pago inicial: se financia en 20 cuotas fijas. Si en algún momento cancelás, se interrumpe el desarrollo o se da de baja el sitio.',
+  },
+]
+export const SETUP_MONTHLY_MONTHS = 20
+
+// Paso 1 — sistema llave en mano, pago único de instalación (o financiado en 20 cuotas).
+// Estrategia Good/Better/Best: la del medio es la que más conviene vender, por eso va destacada.
 export const SETUP_PLANS = [
   {
     id: 'esencial',
     name: 'Esencial',
     price: 300,
+    priceMonthly: 15,
     featured: false,
     features: ['Despliegue del sistema base', 'Tu logo y colores', 'Subdominio propio (tuclub.padelcba.com)', 'Carga de datos por cuenta del cliente'],
     cta: 'Empezar con Esencial',
@@ -20,6 +34,7 @@ export const SETUP_PLANS = [
     id: 'llave-en-mano',
     name: 'Llave en Mano',
     price: 500,
+    priceMonthly: 25,
     featured: true,
     features: ['Todo lo del plan Esencial', 'Dominio .com.ar propio', 'Data entry completo — cargamos tus canchas y kiosco por vos', 'Capacitación en vivo para tu staff'],
     cta: 'Quiero este plan',
@@ -29,6 +44,7 @@ export const SETUP_PLANS = [
     id: 'marca-blanca',
     name: 'Marca Blanca',
     price: 600,
+    priceMonthly: 30,
     featured: false,
     features: ['Todo lo de Llave en Mano', 'Rediseño visual exclusivo de tu portada', 'Integración avanzada con bot de WhatsApp propio'],
     cta: 'Contactar',

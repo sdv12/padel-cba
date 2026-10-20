@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Check, ShieldCheck, Sparkles } from 'lucide-react'
-import { SETUP_PLANS, MANAGEMENT_MODELS, ADDONS, SETUP_DEPOSIT_NOTE, formatUsd } from '../../data/plans'
+import { SETUP_PLANS, SETUP_MODALITIES, SETUP_MONTHLY_MONTHS, MANAGEMENT_MODELS, ADDONS, formatUsd } from '../../data/plans'
 import SectionKicker from '../ui/SectionKicker'
 
 const FEATURED_INDEX = SETUP_PLANS.findIndex((p) => p.featured)
@@ -8,6 +8,9 @@ const MOBILE_FEATURES_LIMIT = 4
 
 export default function PricingSection() {
   const [activeIndex, setActiveIndex] = useState(FEATURED_INDEX === -1 ? 0 : FEATURED_INDEX)
+  const [modality, setModality] = useState(SETUP_MODALITIES[0].id)
+  const monthly = modality === 'mensual'
+  const modalityNote = SETUP_MODALITIES.find((m) => m.id === modality)?.note
 
   return (
     <section id="precios" className="border-y border-ink-line bg-ink-soft/40 py-24">
@@ -27,11 +30,26 @@ export default function PricingSection() {
             <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-lime/50 font-display text-sm font-bold text-lime">1</span>
             <h3 className="font-display text-2xl font-bold text-bone">Tu sistema llave en mano</h3>
           </div>
-          <p className="mt-1.5 pl-11 text-sm text-muted">Pago único de instalación. {SETUP_DEPOSIT_NOTE}</p>
+          <p className="mt-1.5 pl-11 text-sm text-muted">{modalityNote}</p>
+
+          {/* Interruptor de modalidad: pago único vs financiado mensual */}
+          <div className="mt-6 inline-flex rounded-full border border-ink-line p-1">
+            {SETUP_MODALITIES.map((m) => (
+              <button
+                key={m.id}
+                onClick={() => setModality(m.id)}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+                  modality === m.id ? 'bg-lime text-inkfix' : 'text-muted hover:text-bone'
+                }`}
+              >
+                {m.name}
+              </button>
+            ))}
+          </div>
 
           <div className="mt-8 hidden gap-5 sm:grid lg:grid-cols-3">
             {SETUP_PLANS.map((p) => (
-              <SetupCard key={p.id} plan={p} />
+              <SetupCard key={p.id} plan={p} monthly={monthly} />
             ))}
           </div>
 
@@ -47,7 +65,7 @@ export default function PricingSection() {
                   } ${p.featured ? 'border-lime' : ''} bg-ink`}
                 >
                   {active ? (
-                    <SetupCard plan={p} compact />
+                    <SetupCard plan={p} monthly={monthly} compact />
                   ) : (
                     <button onClick={() => setActiveIndex(i)} className="absolute inset-0 flex items-center justify-center" aria-label={`Ver plan ${p.name}`}>
                       <span className="[writing-mode:vertical-rl] whitespace-nowrap text-sm font-bold text-muted">{p.name}</span>
@@ -104,7 +122,7 @@ export default function PricingSection() {
   )
 }
 
-function SetupCard({ plan: p, compact = false }) {
+function SetupCard({ plan: p, monthly = false, compact = false }) {
   const features = compact ? p.features.slice(0, MOBILE_FEATURES_LIMIT) : p.features
   const hiddenCount = p.features.length - features.length
 
@@ -122,9 +140,10 @@ function SetupCard({ plan: p, compact = false }) {
       )}
       <h4 className="font-display text-xl font-bold text-bone">{p.name}</h4>
       <div className="mt-4 flex items-baseline gap-1">
-        <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(p.price)}</span>
+        <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(monthly ? p.priceMonthly : p.price)}</span>
+        {monthly && <span className="text-sm text-muted">/ mes</span>}
       </div>
-      <p className="mt-0.5 text-xs text-muted">Pago único</p>
+      <p className="mt-0.5 text-xs text-muted">{monthly ? `Financiado en ${SETUP_MONTHLY_MONTHS} cuotas` : 'Pago único'}</p>
       <ul className="mt-6 flex-1 space-y-2.5">
         {features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-bone">

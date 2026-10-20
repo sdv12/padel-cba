@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, Palette, Shapes, Sparkles } from 'lucide-react'
+import { Check, Palette, ShoppingCart, Shapes, Sparkles } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
+import { useCart } from '../../context/CartContext'
 import { PALETTES } from '../../data/palettes'
 import { STYLES } from '../../data/styles'
 
@@ -39,6 +40,11 @@ function Option({ active, onClick, children }) {
 
 function DesignOptions({ onPick }) {
   const { palette, setPalette, style, setStyle } = useTheme()
+  const { addItem } = useCart()
+  const paletteName = PALETTES.find((p) => p.id === palette)?.name ?? palette
+  const styleName = STYLES.find((s) => s.id === style)?.name ?? style
+  const styleTier = STYLES.find((s) => s.id === style)?.tier === 'medio' ? 'Plan medio' : 'Plan base'
+
   return (
     <div>
       <Group title="Paleta" icon={Palette}>
@@ -84,6 +90,20 @@ function DesignOptions({ onPick }) {
           </Option>
         ))}
       </Group>
+
+      <button
+        onClick={() => {
+          addItem({
+            group: 'demo',
+            label: `Estilo ${styleName} — Paleta ${paletteName}`,
+            detail: styleTier,
+          })
+          onPick?.()
+        }}
+        className="btn-cut-sm mt-2 flex w-full items-center justify-center gap-2 bg-lime py-2.5 text-sm font-bold text-inkfix"
+      >
+        <ShoppingCart size={14} /> Agregar este diseño a mi pedido
+      </button>
     </div>
   )
 }

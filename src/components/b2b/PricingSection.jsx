@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Check, ShieldCheck, Sparkles } from 'lucide-react'
+import { Check, ShieldCheck, ShoppingCart, Sparkles } from 'lucide-react'
+import { useCart } from '../../context/CartContext'
 import {
   SETUP_PLANS,
   SETUP_MODALITIES,
@@ -133,8 +134,17 @@ export default function PricingSection() {
 }
 
 function SetupCard({ plan: p, monthly = false, compact = false }) {
+  const { addItem } = useCart()
   const features = compact ? p.features.slice(0, MOBILE_FEATURES_LIMIT) : p.features
   const hiddenCount = p.features.length - features.length
+
+  function handleAddToCart() {
+    addItem({
+      group: 'setup',
+      label: p.name,
+      detail: monthly ? `${formatUsd(p.priceMonthly)}/mes, sin pago inicial` : `${formatUsd(p.price)}, pago único`,
+    })
+  }
 
   return (
     <div
@@ -163,14 +173,23 @@ function SetupCard({ plan: p, monthly = false, compact = false }) {
         {hiddenCount > 0 && <li className="text-sm text-muted">+ {hiddenCount} más</li>}
       </ul>
       {p.customNote && <p className="mt-4 text-xs text-muted">{p.customNote}</p>}
-      <a
-        href="#contacto"
-        className={`mt-7 py-3 text-center text-sm font-bold transition-transform hover:scale-[1.02] ${
-          p.ctaStyle === 'solid' ? 'btn-cut bg-lime text-inkfix' : 'btn-cut border border-ink-line text-bone'
-        }`}
-      >
-        {p.cta}
-      </a>
+      <div className="mt-7 flex gap-2">
+        <a
+          href="#contacto"
+          className={`flex-1 py-3 text-center text-sm font-bold transition-transform hover:scale-[1.02] ${
+            p.ctaStyle === 'solid' ? 'btn-cut bg-lime text-inkfix' : 'btn-cut border border-ink-line text-bone'
+          }`}
+        >
+          {p.cta}
+        </a>
+        <button
+          onClick={handleAddToCart}
+          className="btn-cut grid w-12 shrink-0 place-items-center border border-ink-line text-bone transition-colors hover:border-lime hover:text-lime"
+          aria-label={`Agregar ${p.name} al pedido`}
+        >
+          <ShoppingCart size={16} />
+        </button>
+      </div>
     </div>
   )
 }
@@ -237,6 +256,8 @@ function ModalityComparison() {
 }
 
 function ModelCard({ model: m }) {
+  const { addItem } = useCart()
+
   return (
     <div
       className={`relative flex flex-col rounded-lg border p-6 ${
@@ -262,19 +283,30 @@ function ModelCard({ model: m }) {
         ))}
       </ul>
       {m.promoNote && <p className="mt-4 text-xs text-teal">{m.promoNote}</p>}
-      <a
-        href="#contacto"
-        className={`btn-cut mt-7 py-3 text-center text-sm font-bold transition-transform hover:scale-[1.02] ${
-          m.recommended ? 'bg-lime text-inkfix' : 'border border-ink-line text-bone'
-        }`}
-      >
-        {m.cta}
-      </a>
+      <div className="mt-7 flex gap-2">
+        <a
+          href="#contacto"
+          className={`btn-cut flex-1 py-3 text-center text-sm font-bold transition-transform hover:scale-[1.02] ${
+            m.recommended ? 'bg-lime text-inkfix' : 'border border-ink-line text-bone'
+          }`}
+        >
+          {m.cta}
+        </a>
+        <button
+          onClick={() => addItem({ group: 'management', label: m.name, detail: `${formatUsd(m.price)}/mes` })}
+          className="btn-cut grid w-12 shrink-0 place-items-center border border-ink-line text-bone transition-colors hover:border-lime hover:text-lime"
+          aria-label={`Agregar ${m.name} al pedido`}
+        >
+          <ShoppingCart size={16} />
+        </button>
+      </div>
     </div>
   )
 }
 
 function AddonCard({ addon: a }) {
+  const { addItem } = useCart()
+
   return (
     <div className="flex flex-col rounded-lg border border-ink-line bg-ink p-6">
       <h4 className="font-display text-xl font-bold text-bone">{a.name}</h4>
@@ -293,12 +325,21 @@ function AddonCard({ addon: a }) {
           </li>
         ))}
       </ul>
-      <a
-        href="#contacto"
-        className="btn-cut mt-7 border border-ink-line py-3 text-center text-sm font-bold text-bone transition-transform hover:scale-[1.02] hover:border-teal hover:text-teal"
-      >
-        {a.cta}
-      </a>
+      <div className="mt-7 flex gap-2">
+        <a
+          href="#contacto"
+          className="btn-cut flex-1 border border-ink-line py-3 text-center text-sm font-bold text-bone transition-transform hover:scale-[1.02] hover:border-teal hover:text-teal"
+        >
+          {a.cta}
+        </a>
+        <button
+          onClick={() => addItem({ group: 'addon', label: a.name, detail: `${formatUsd(a.price, { from: a.priceFrom })} + ${formatUsd(a.monthly)}/mes` })}
+          className="btn-cut grid w-12 shrink-0 place-items-center border border-ink-line text-bone transition-colors hover:border-teal hover:text-teal"
+          aria-label={`Agregar ${a.name} al pedido`}
+        >
+          <ShoppingCart size={16} />
+        </button>
+      </div>
     </div>
   )
 }

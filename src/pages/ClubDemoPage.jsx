@@ -13,6 +13,7 @@ import AdminDemoSection from '../components/AdminDemoSection'
 import Footer from '../components/Footer'
 import StickyContactBar from '../components/StickyContactBar'
 import CartWidget from '../components/b2b/CartWidget'
+import DemoCartSync from '../components/DemoCartSync'
 
 // Demo en vivo de una sede: esto es lo que ve un jugador si el club usa Padel CBA.
 // La landing B2B (/) linkea acá en vez de mostrar capturas estáticas del producto.
@@ -35,6 +36,7 @@ export default function ClubDemoPage() {
       <Footer />
       <StickyContactBar />
       <CartWidget />
+      <DemoCartSync />
     </BookingProvider>
   )
 }

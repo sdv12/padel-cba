@@ -17,6 +17,15 @@ export const SETUP_MODALITIES = [
 ]
 export const SETUP_MONTHLY_MONTHS = 20
 
+// Comparación corto/largo plazo entre modalidades — filas cualitativas (fijas) + meses de
+// referencia para la tabla de costo acumulado (se calcula en el componente con cada plan).
+export const SETUP_MODALITY_QUALITATIVE = [
+  { label: 'Pago inicial', unico: 'El precio completo', mensual: '$0 — arrancás sin desembolso' },
+  { label: 'Dueño del sitio', unico: 'El club, desde el día 1', mensual: 'Padel CBA, mientras se pague la cuota' },
+  { label: 'Si en algún momento cancelás', unico: 'No pasa nada, ya es tuyo', mensual: 'Se da de baja el sitio' },
+]
+export const SETUP_MODALITY_MONTH_MARKS = [12, 20, 36]
+
 // Paso 1 — sistema llave en mano, pago único de instalación (o financiado en 20 cuotas).
 // Estrategia Good/Better/Best: la del medio es la que más conviene vender, por eso va destacada.
 export const SETUP_PLANS = [

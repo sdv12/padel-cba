@@ -1,6 +1,15 @@
 import { useState } from 'react'
 import { Check, ShieldCheck, Sparkles } from 'lucide-react'
-import { SETUP_PLANS, SETUP_MODALITIES, SETUP_MONTHLY_MONTHS, MANAGEMENT_MODELS, ADDONS, formatUsd } from '../../data/plans'
+import {
+  SETUP_PLANS,
+  SETUP_MODALITIES,
+  SETUP_MONTHLY_MONTHS,
+  SETUP_MODALITY_QUALITATIVE,
+  SETUP_MODALITY_MONTH_MARKS,
+  MANAGEMENT_MODELS,
+  ADDONS,
+  formatUsd,
+} from '../../data/plans'
 import SectionKicker from '../ui/SectionKicker'
 
 const FEATURED_INDEX = SETUP_PLANS.findIndex((p) => p.featured)
@@ -76,6 +85,8 @@ export default function PricingSection() {
               )
             })}
           </div>
+
+          <ModalityComparison />
         </div>
 
         {/* Paso 2 (opcional) */}
@@ -161,6 +172,66 @@ function SetupCard({ plan: p, monthly = false, compact = false }) {
       >
         {p.cta}
       </a>
+    </div>
+  )
+}
+
+function ModalityComparison() {
+  return (
+    <div className="mt-10 rounded-lg border border-ink-line bg-ink p-6">
+      <p className="text-sm font-bold text-bone">¿Pago único o mensual? Lo que cambia a corto y largo plazo</p>
+
+      <div className="mt-5 grid gap-x-6 gap-y-3 sm:grid-cols-3">
+        {SETUP_MODALITY_QUALITATIVE.map((row) => (
+          <div key={row.label}>
+            <p className="text-xs font-bold uppercase tracking-wide text-muted">{row.label}</p>
+            <p className="mt-1 text-sm text-bone">
+              <span className="text-muted">Único:</span> {row.unico}
+            </p>
+            <p className="text-sm text-bone">
+              <span className="text-muted">Mensual:</span> {row.mensual}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 overflow-x-auto">
+        <table className="w-full min-w-[480px] text-sm">
+          <thead>
+            <tr className="border-b border-ink-line text-left text-xs uppercase tracking-wide text-muted">
+              <th className="pb-2 pr-4 font-semibold">Plan</th>
+              <th className="pb-2 pr-4 font-semibold">Pago único</th>
+              {SETUP_MODALITY_MONTH_MARKS.map((m) => (
+                <th key={m} className="pb-2 pr-4 font-semibold">
+                  Mensual a los {m} meses
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {SETUP_PLANS.map((p) => (
+              <tr key={p.id} className="border-b border-ink-line last:border-0">
+                <td className="py-2.5 pr-4 font-semibold text-bone">{p.name}</td>
+                <td className="py-2.5 pr-4 tabular-nums text-bone">{formatUsd(p.price)}</td>
+                {SETUP_MODALITY_MONTH_MARKS.map((m) => {
+                  const total = p.priceMonthly * m
+                  const isBreakeven = m === SETUP_MONTHLY_MONTHS
+                  return (
+                    <td key={m} className={`py-2.5 pr-4 tabular-nums ${isBreakeven ? 'font-bold text-lime' : 'text-muted'}`}>
+                      {formatUsd(total)}
+                    </td>
+                  )
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-3 text-xs text-muted">
+        En el mes {SETUP_MONTHLY_MONTHS}, el total pagado en la modalidad mensual empata con el pago único. Si pensás
+        usar el sistema más tiempo que eso, el pago único te conviene; si preferís no inmovilizar capital al arrancar,
+        el mensual te lo permite.
+      </p>
     </div>
   )
 }

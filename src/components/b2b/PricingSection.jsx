@@ -3,7 +3,6 @@ import { Check, ShieldCheck, Sparkles } from 'lucide-react'
 import {
   SETUP_PLANS,
   SETUP_MODALITIES,
-  SETUP_MONTHLY_MONTHS,
   SETUP_MODALITY_QUALITATIVE,
   SETUP_MODALITY_MONTH_MARKS,
   MANAGEMENT_MODELS,
@@ -154,7 +153,7 @@ function SetupCard({ plan: p, monthly = false, compact = false }) {
         <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(monthly ? p.priceMonthly : p.price)}</span>
         {monthly && <span className="text-sm text-muted">/ mes</span>}
       </div>
-      <p className="mt-0.5 text-xs text-muted">{monthly ? `Financiado en ${SETUP_MONTHLY_MONTHS} cuotas` : 'Pago único'}</p>
+      <p className="mt-0.5 text-xs text-muted">{monthly ? 'Abono mensual, sin pago inicial' : 'Pago único'}</p>
       <ul className="mt-6 flex-1 space-y-2.5">
         {features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-bone">
@@ -215,9 +214,9 @@ function ModalityComparison() {
                 <td className="py-2.5 pr-4 tabular-nums text-bone">{formatUsd(p.price)}</td>
                 {SETUP_MODALITY_MONTH_MARKS.map((m) => {
                   const total = p.priceMonthly * m
-                  const isBreakeven = m === SETUP_MONTHLY_MONTHS
+                  const pastBreakeven = total >= p.price
                   return (
-                    <td key={m} className={`py-2.5 pr-4 tabular-nums ${isBreakeven ? 'font-bold text-lime' : 'text-muted'}`}>
+                    <td key={m} className={`py-2.5 pr-4 tabular-nums ${pastBreakeven ? 'font-bold text-lime' : 'text-muted'}`}>
                       {formatUsd(total)}
                     </td>
                   )
@@ -228,9 +227,10 @@ function ModalityComparison() {
         </table>
       </div>
       <p className="mt-3 text-xs text-muted">
-        En el mes {SETUP_MONTHLY_MONTHS}, el total pagado en la modalidad mensual empata con el pago único. Si pensás
-        usar el sistema más tiempo que eso, el pago único te conviene; si preferís no inmovilizar capital al arrancar,
-        el mensual te lo permite.
+        En lima: el mes desde el que la modalidad mensual ya pagó lo mismo o más que el pago único de ese plan (varía
+        por plan: Esencial y Llave en Mano empatan al mes 10, Marca Blanca al mes 6). Si pensás usar el sistema más
+        tiempo que eso, el pago único te conviene; si preferís no inmovilizar capital al arrancar, el mensual te lo
+        permite.
       </p>
     </div>
   )
@@ -285,6 +285,7 @@ function AddonCard({ addon: a }) {
       {a.monthly && (
         <p className="mt-1 text-xs text-muted">+ {formatUsd(a.monthly)}/mes de mantenimiento aparte</p>
       )}
+      {a.note && <p className="mt-2 text-xs text-clay">{a.note}</p>}
       <ul className="mt-6 flex-1 space-y-2.5">
         {a.features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-bone">

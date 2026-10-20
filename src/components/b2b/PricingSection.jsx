@@ -99,7 +99,7 @@ export default function PricingSection() {
 
           <div className="mt-8 grid gap-5 lg:grid-cols-[1.3fr_1fr]">
             {ADDONS.map((a) => (
-              <AddonCard key={a.id} addon={a} />
+              <AddonCard key={a.id} addon={a} monthly={monthly} />
             ))}
             <div className="flex flex-col justify-center gap-2 rounded-lg border border-dashed border-ink-line p-6">
               <Sparkles size={18} className="text-teal" />
@@ -137,16 +137,15 @@ function SetupCard({ plan: p, monthly = false, compact = false }) {
   const { addItem } = useCart()
   const features = compact ? p.features.slice(0, MOBILE_FEATURES_LIMIT) : p.features
   const hiddenCount = p.features.length - features.length
-  // Marca Blanca es desarrollo a medida: aunque el interruptor global esté en "mensual",
-  // esta card se queda en pago único (se cotiza aparte, no tiene abono mensual estándar).
-  const effectiveMonthly = monthly && !p.excludesMonthly
 
   function handleAddToCart() {
     addItem({
       group: 'setup',
       label: p.name,
-      detail: effectiveMonthly ? `${formatUsd(p.priceMonthly)}/mes, sin pago inicial` : `${formatUsd(p.price)}, pago único`,
-      excludesAddon: p.excludesAddon,
+      detail: monthly ? `${formatUsd(p.priceMonthly)}/mes, sin pago inicial` : `${formatUsd(p.price)}, pago único`,
+      modality: monthly ? 'mensual' : 'unico',
+      designTier: p.designTier,
+      planId: p.id,
     })
   }
 
@@ -164,12 +163,10 @@ function SetupCard({ plan: p, monthly = false, compact = false }) {
       )}
       <h4 className="font-display text-xl font-bold text-bone">{p.name}</h4>
       <div className="mt-4 flex items-baseline gap-1">
-        <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(effectiveMonthly ? p.priceMonthly : p.price)}</span>
-        {effectiveMonthly && <span className="text-sm text-muted">/ mes</span>}
+        <span className="font-display text-3xl font-extrabold tabular-nums text-bone">{formatUsd(monthly ? p.priceMonthly : p.price)}</span>
+        {monthly && <span className="text-sm text-muted">/ mes</span>}
       </div>
-      <p className="mt-0.5 text-xs text-muted">
-        {effectiveMonthly ? 'Abono mensual, sin pago inicial' : monthly ? 'Pago único — no tiene modalidad mensual' : 'Pago único'}
-      </p>
+      <p className="mt-0.5 text-xs text-muted">{monthly ? 'Abono mensual, sin pago inicial' : 'Pago único'}</p>
       <ul className="mt-6 flex-1 space-y-2.5">
         {features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-bone">
@@ -238,13 +235,6 @@ function ModalityComparison() {
                 <td className="py-2.5 pr-4 font-semibold text-bone">{p.name}</td>
                 <td className="py-2.5 pr-4 tabular-nums text-bone">{formatUsd(p.price)}</td>
                 {SETUP_MODALITY_MONTH_MARKS.map((m) => {
-                  if (p.excludesMonthly) {
-                    return (
-                      <td key={m} className="py-2.5 pr-4 text-muted">
-                        No disponible
-                      </td>
-                    )
-                  }
                   const total = p.priceMonthly * m
                   const pastBreakeven = total >= p.price
                   return (
@@ -259,10 +249,9 @@ function ModalityComparison() {
         </table>
       </div>
       <p className="mt-3 text-xs text-muted">
-        En lima: el mes desde el que la modalidad mensual ya pagó lo mismo o más que el pago único de ese plan (Esencial
-        y Llave en Mano empatan al mes 10). Si pensás usar el sistema más tiempo que eso, el pago único te conviene; si
-        preferís no inmovilizar capital al arrancar, el mensual te lo permite. Marca Blanca es desarrollo a medida, se
-        cotiza siempre como pago único.
+        En lima: el mes desde el que la modalidad mensual ya pagó lo mismo o más que el pago único de ese plan (varía
+        por plan según su precio). Si pensás usar el sistema más tiempo que eso, el pago único te conviene; si
+        preferís no inmovilizar capital al arrancar, el mensual te lo permite.
       </p>
     </div>
   )
@@ -317,9 +306,13 @@ function ModelCard({ model: m }) {
   )
 }
 
-function AddonCard({ addon: a }) {
+function AddonCard({ addon: a, monthly = false }) {
   const { addItem, addonBlockedBy } = useCart()
-  const blocker = addonBlockedBy()
+  // Se bloquea tanto por el interruptor de modalidad en vivo (lo que se está por agregar)
+  // como por lo que ya haya en el carrito (si se agregó el setup en mensual y después se
+  // vuelve acá sin tocar el interruptor).
+  const blockedByCart = addonBlockedBy()
+  const blocked = monthly || !!blockedByCart
 
   return (
     <div className="flex flex-col rounded-lg border border-ink-line bg-ink p-6">
@@ -332,9 +325,11 @@ function AddonCard({ addon: a }) {
         <p className="mt-1 text-xs text-muted">+ {formatUsd(a.monthly)}/mes de mantenimiento aparte</p>
       )}
       {a.note && <p className="mt-2 text-xs text-clay">{a.note}</p>}
-      {blocker && (
+      {blocked && (
         <p className="mt-2 text-xs font-semibold text-clay">
-          No disponible: ya tenés {blocker.label} en tu pedido (desarrollo personalizado, no admite este módulo).
+          {monthly
+            ? 'No disponible con la modalidad "Pago mensual" elegida arriba — cambiá a "Pago único" para sumarlo.'
+            : `No disponible: ${blockedByCart.label} está en tu pedido con pago mensual.`}
         </p>
       )}
       <ul className="mt-6 flex-1 space-y-2.5">
@@ -353,7 +348,7 @@ function AddonCard({ addon: a }) {
         </a>
         <button
           onClick={() => addItem({ group: 'addon', label: a.name, detail: `${formatUsd(a.price, { from: a.priceFrom })} + ${formatUsd(a.monthly)}/mes` })}
-          disabled={!!blocker}
+          disabled={blocked}
           className="btn-cut grid w-12 shrink-0 place-items-center border border-ink-line text-bone transition-colors hover:border-teal hover:text-teal disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-ink-line disabled:hover:text-bone"
           aria-label={`Agregar ${a.name} al pedido`}
         >

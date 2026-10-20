@@ -28,6 +28,8 @@ export const SETUP_MODALITY_MONTH_MARKS = [6, 12, 24]
 
 // Paso 1 — sistema llave en mano, pago único de instalación (o abono mensual sin pago inicial).
 // Estrategia Good/Better/Best: la del medio es la que más conviene vender, por eso va destacada.
+// designTier conecta el plan con el acceso a diseños de la demo: Esencial solo da los estilos
+// prediseñados (plan base); Llave en Mano y Marca Blanca destraban también los premium (medio).
 export const SETUP_PLANS = [
   {
     id: 'esencial',
@@ -35,6 +37,7 @@ export const SETUP_PLANS = [
     price: 300,
     priceMonthly: 30,
     featured: false,
+    designTier: 'base',
     features: ['Despliegue del sistema base', 'Tu logo y colores', 'Subdominio propio (tuclub.padelcba.com)', 'Carga de datos por cuenta del cliente'],
     cta: 'Empezar con Esencial',
     ctaStyle: 'ghost',
@@ -45,6 +48,7 @@ export const SETUP_PLANS = [
     price: 500,
     priceMonthly: 50,
     featured: true,
+    designTier: 'medio',
     features: ['Todo lo del plan Esencial', 'Dominio .com.ar propio', 'Data entry completo — cargamos tus canchas y kiosco por vos', 'Capacitación en vivo para tu staff'],
     cta: 'Quiero este plan',
     ctaStyle: 'solid',
@@ -55,20 +59,19 @@ export const SETUP_PLANS = [
     price: 600,
     priceMonthly: 100,
     featured: false,
-    excludesAddon: true,
-    excludesMonthly: true,
+    designTier: 'medio',
+    customDesignSuggestion: true,
     features: ['Todo lo de Llave en Mano', 'Rediseño visual exclusivo de tu portada', 'Integración avanzada con bot de WhatsApp propio'],
     cta: 'Contactar',
     ctaStyle: 'ghost',
-    customNote:
-      '¿Lo querés 100% a medida, fuera de nuestras paletas? Se charla — precio a convenir. Al ser un desarrollo personalizado, no admite sumar el Módulo de Caja y Cobranzas del Paso 2, ni la modalidad de pago mensual (se cotiza aparte).',
+    customNote: '¿Lo querés 100% a medida, fuera de nuestras paletas? Se charla — precio a convenir.',
   },
 ]
 
 // Paso 2 (opcional) — add-on a medida para el dueño, separado del setup. Tiene su propio
 // mantenimiento mensual ($50) salvo que se combine con Tarifa Plana (ver promo en MANAGEMENT_MODELS).
-// No está disponible para el setup Marca Blanca (ver excludesAddon en SETUP_PLANS): al ser un
-// desarrollo 100% personalizado, este módulo se evaluaría aparte, no como add-on estándar.
+// Solo se puede sumar con la modalidad "Pago único": al no tener pago inicial, la modalidad
+// mensual no puede financiar además un desarrollo a medida como este.
 export const ADDONS = [
   {
     id: 'caja-cobranzas',
@@ -84,7 +87,7 @@ export const ADDONS = [
       'Reporte de cierre de caja diario: cuánto tiene que haber en efectivo y cuánto entró por transferencia',
     ],
     cta: 'Sumar este módulo',
-    note: 'No disponible para el setup Marca Blanca — al ser desarrollo 100% personalizado, se evalúa aparte.',
+    note: 'Solo disponible con la modalidad "Pago único" del Paso 1 — la modalidad mensual no financia además un desarrollo a medida.',
   },
 ]
 

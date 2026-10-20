@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, Palette, Shapes, Sparkles } from 'lucide-react'
+import { Check, Lock, Palette, Shapes, Sparkles } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
+import { useCart } from '../../context/CartContext'
 import { PALETTES } from '../../data/palettes'
 import { STYLES } from '../../data/styles'
 
@@ -39,6 +40,12 @@ function Option({ active, onClick, children }) {
 
 function DesignOptions({ onPick }) {
   const { palette, setPalette, style, setStyle } = useTheme()
+  const { items } = useCart()
+  const setupItem = items.find((i) => i.group === 'setup')
+  // Sin un plan elegido todavía no hay restricción — recién se traba cuando el cliente eligió
+  // Esencial (designTier "base") en la sección de precios.
+  const medioLocked = setupItem?.designTier === 'base'
+  const suggestCustom = setupItem?.planId === 'marca-blanca'
 
   return (
     <div>
@@ -75,16 +82,40 @@ function DesignOptions({ onPick }) {
         {MEDIO_STYLES.map((s) => (
           <Option
             key={s.id}
-            active={style === s.id}
+            active={!medioLocked && style === s.id}
             onClick={() => {
+              if (medioLocked) return
               setStyle(s.id)
               onPick?.()
             }}
           >
-            <span className="font-semibold">{s.name}</span>
+            {medioLocked ? (
+              <>
+                <Lock size={13} className="shrink-0 opacity-60" />
+                <span className="font-semibold opacity-60">{s.name}</span>
+              </>
+            ) : (
+              <span className="font-semibold">{s.name}</span>
+            )}
           </Option>
         ))}
       </Group>
+      {medioLocked && (
+        <p className="px-3 pb-1 pt-2 text-[11px] leading-relaxed text-muted">
+          Disponibles si elegís Llave en Mano o Marca Blanca en Precios.
+        </p>
+      )}
+      {suggestCustom && (
+        <div className="mt-2 rounded-lg bg-lime/10 p-3">
+          <p className="text-xs font-semibold text-lime">¿Un diseño 100% personalizado?</p>
+          <p className="mt-1 text-[11px] leading-relaxed text-muted">
+            Con Marca Blanca podés tener algo distinto a estos — hablalo con nosotros.
+          </p>
+          <a href="/#contacto" className="mt-2 inline-block text-[11px] font-bold text-lime underline">
+            Hablar de diseño a medida
+          </a>
+        </div>
+      )}
     </div>
   )
 }

@@ -25,23 +25,24 @@ export function CartProvider({ children }) {
   }, [items])
 
   // Cada "group" (demo, setup, addon, management) es una elección única: agregar de nuevo
-  // dentro del mismo grupo reemplaza la elección anterior en vez de duplicarla. Si el setup
-  // elegido excluye el addon (ej. Marca Blanca, desarrollo personalizado), se saca el addon
-  // del carrito en vez de dejar una combinación que no se puede vender así.
+  // dentro del mismo grupo reemplaza la elección anterior en vez de duplicarla. El addon de
+  // Caja y Cobranzas solo se puede financiar con "Pago único" (no tiene pago inicial propio
+  // para sumarle además un desarrollo a medida): si el setup que se agrega es "mensual", se
+  // saca el addon del carrito en vez de dejar una combinación que no se puede vender así.
   function addItem(item) {
     setItems((prev) => {
       let next = prev.filter((i) => i.group !== item.group)
-      if (item.group === 'setup' && item.excludesAddon) {
+      if (item.group === 'setup' && item.modality === 'mensual') {
         next = next.filter((i) => i.group !== 'addon')
       }
       return [...next, { ...item, id: `${item.group}-${Date.now()}` }]
     })
   }
 
-  // true si hay un setup en el carrito que no admite el addon (Marca Blanca). Lo consulta
-  // AddonCard antes de dejar agregar el módulo.
+  // true si el setup en el carrito está en modalidad mensual (no admite sumar el addon). Lo
+  // consulta AddonCard antes de dejar agregar el módulo.
   function addonBlockedBy() {
-    return items.find((i) => i.group === 'setup' && i.excludesAddon) ?? null
+    return items.find((i) => i.group === 'setup' && i.modality === 'mensual') ?? null
   }
 
   function removeItem(id) {

@@ -4,6 +4,11 @@ import { VENUE, waLink } from '../data/venue'
 import { useTheme } from '../context/ThemeContext'
 import InstagramIcon from './ui/InstagramIcon'
 
+const LEGAL_LINKS = [
+  { href: '/privacidad', label: 'Privacidad' },
+  { href: '/terminos', label: 'Términos' },
+]
+
 const NAV = [
   { href: '#reservas', label: 'Reservar' },
   { href: '#abiertos', label: 'Partidos abiertos' },
@@ -87,25 +92,39 @@ export default function Footer() {
 
         <div className="border-t border-ink-line px-5 py-8 pb-24">
           <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 text-xs text-muted sm:flex-row sm:justify-between">
-            <div className="flex items-center gap-2 font-display text-lg font-bold text-bone">
-              <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-lime">
-                <span className="h-2.5 w-2.5 rounded-full bg-lime" />
-              </span>
-              PADEL<span className="text-lime">·</span>CBA
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+              <div className="flex items-center gap-2 font-display text-lg font-bold text-bone">
+                <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-lime">
+                  <span className="h-2.5 w-2.5 rounded-full bg-lime" />
+                </span>
+                PADEL<span className="text-lime">·</span>CBA
+              </div>
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-ink-line px-3 py-1 text-[11px]">🧉 Producto cordobés</span>
             </div>
-            <div className="flex items-center gap-3">
-              <a
-                href={VENUE.instagram}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="grid h-9 w-9 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-lime hover:text-lime"
-              >
-                <InstagramIcon size={15} />
-              </a>
+            <nav className="flex items-center gap-3">
+              {LEGAL_LINKS.map((l) => (
+                <a key={l.href} href={l.href} className="hover:text-bone">
+                  {l.label}
+                </a>
+              ))}
+              {VENUE.instagram && (
+                <a
+                  href={VENUE.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-lime hover:text-lime"
+                >
+                  <InstagramIcon size={15} />
+                </a>
+              )}
+            </nav>
+            <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
               <span>© {new Date().getFullYear()} Padel Cba</span>
               <span className="text-ink-line">·</span>
               <span className="tabular-nums">v{pkg.version}</span>
+              <span className="text-ink-line">·</span>
+              <span>Hecho por Sergio Villegas</span>
             </div>
           </div>
         </div>
@@ -153,15 +172,17 @@ export default function Footer() {
               >
                 <MessageCircle size={18} />
               </a>
-              <a
-                href={VENUE.instagram}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="grid h-11 w-11 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-lime hover:text-lime"
-              >
-                <InstagramIcon size={18} />
-              </a>
+              {VENUE.instagram && (
+                <a
+                  href={VENUE.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                  className="grid h-11 w-11 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-lime hover:text-lime"
+                >
+                  <InstagramIcon size={18} />
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -173,10 +194,19 @@ export default function Footer() {
             <span>Todos los turnos sujetos a disponibilidad.</span>
             <span className="text-ink-line">·</span>
             <span className="tabular-nums">v{pkg.version}</span>
+            <span className="text-ink-line">·</span>
+            <span>Hecho por Sergio Villegas</span>
           </div>
-          <a href="#top" className="flex items-center gap-1.5 text-bone transition-colors hover:text-lime">
-            Volver arriba <ArrowUp size={13} />
-          </a>
+          <nav className="flex items-center gap-3">
+            {LEGAL_LINKS.map((l) => (
+              <a key={l.href} href={l.href} className="hover:text-bone">
+                {l.label}
+              </a>
+            ))}
+            <a href="#top" className="flex items-center gap-1.5 text-bone transition-colors hover:text-lime">
+              Volver arriba <ArrowUp size={13} />
+            </a>
+          </nav>
         </div>
       </div>
     </footer>

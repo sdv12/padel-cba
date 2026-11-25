@@ -1,7 +1,7 @@
 import { Check, MessageCircle } from 'lucide-react'
 import LeadForm from './LeadForm'
+import { B2B_WHATSAPP } from '../../data/business'
 
-const B2B_WHATSAPP = '5493516000000' // placeholder — cambiar por el WhatsApp comercial real
 const POINTS = ['Te contactamos en menos de 24 hs', 'Sin compromiso', 'Te ayudamos con la configuración inicial']
 
 export default function FinalCta() {

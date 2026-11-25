@@ -1,8 +1,6 @@
-import { ArrowUp, AtSign, MessageCircle } from 'lucide-react'
+import { ArrowUp, Mail, MessageCircle } from 'lucide-react'
 import pkg from '../../../package.json'
-
-const B2B_WHATSAPP = '5493516000000' // placeholder — mismo número que en FinalCta.jsx
-const INSTAGRAM_HANDLE = 'padelcba' // placeholder — reemplazar por la cuenta real
+import { B2B_WHATSAPP, B2B_EMAIL } from '../../data/business'
 
 const PRODUCT_LINKS = [
   { href: '#producto', label: 'Producto' },
@@ -92,13 +90,11 @@ export default function B2BFooter() {
                 <MessageCircle size={18} />
               </a>
               <a
-                href={`https://instagram.com/${INSTAGRAM_HANDLE}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
+                href={`mailto:${B2B_EMAIL}`}
+                aria-label="Email"
                 className="grid h-11 w-11 place-items-center rounded-full border border-ink-line text-bone transition-colors hover:border-clay hover:text-clay"
               >
-                <AtSign size={18} />
+                <Mail size={18} />
               </a>
             </div>
           </div>
